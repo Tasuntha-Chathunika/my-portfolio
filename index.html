@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" class="dark"> <head>
+<html lang="en" class="dark">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasuntha Chathunika Dayasiri - Portfolio</title>
@@ -9,47 +10,48 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
-        /* CSS Variables for New Theming */
         :root {
-            /* Light Mode Colors - NEW PALETTE */
-            --bg-light: #F7FAFC; /* Very Light Gray */
-            --text-light: #2D3748; /* Dark Gray */
-            --card-bg-light: rgba(255, 255, 255, 0.85);
-            --card-border-light: rgba(226, 232, 240, 0.8);
-            --heading-color-light: #2C5282; /* Darker Blue */
-            --accent-primary-light: #38B2AC; /* Teal */
-            --accent-secondary-light: #ED8936; /* Orange */
-            --nav-bg-light: rgba(237, 242, 247, 0.85);
-            --nav-text-light: #4A5568; /* Medium Gray */
+            /* Light Mode Colors */
+            --bg-light: #F0F4F8;
+            --text-light: #1A202C;
+            --card-bg-light: rgba(255, 255, 255, 0.9);
+            --card-border-light: rgba(203, 213, 225, 0.7);
+            --heading-color-light: #2B6CB0;
+            --accent-primary-light: #3182CE;
+            --accent-secondary-light: #DD6B20;
+            --nav-bg-light: rgba(226, 232, 240, 0.85);
+            --nav-text-light: #2D3748;
             --nav-active-light: var(--heading-color-light);
             --btn-primary-bg-light: var(--accent-primary-light);
             --btn-primary-text-light: #ffffff;
             --btn-secondary-border-light: var(--accent-primary-light);
             --btn-secondary-text-light: var(--accent-primary-light);
 
-            /* Dark Mode Colors - NEW PALETTE */
-            --bg-dark: #1A202C; /* Charcoal/Slate Blue */
-            --text-dark: #E2E8F0; /* Light Gray */
-            --card-bg-dark: rgba(45, 55, 72, 0.75); /* Dark Slate */
-            --card-border-dark: rgba(74, 85, 104, 0.6);
-            --heading-color-dark: #63B3ED; /* Sky Blue */
-            --accent-primary-dark: #4FD1C5; /* Bright Teal */
-            --accent-secondary-dark: #F6AD55; /* Muted Orange */
-            --nav-bg-dark: rgba(26, 32, 44, 0.85);
-            --nav-text-dark: #A0AEC0; /* Medium Gray */
-            --nav-active-dark: var(--heading-color-dark);
+            /* Dark Mode Colors */
+            --bg-dark: #111827;
+            --text-dark: #E5E7EB;
+            --card-bg-dark: rgba(31, 41, 55, 0.65);
+            --card-border-dark: rgba(75, 85, 99, 0.5);
+            --heading-color-dark: #818CF8;
+            --accent-primary-dark: #4F46E5;
+            --accent-secondary-dark: #F6AD55; /* Was #EC4899, changed to Muted Orange/Gold */
+            --nav-bg-dark: rgba(17, 24, 39, 0.8);
+            --nav-text-dark: #D1D5DB;
+            --nav-active-dark: #A5B4FC;
             --btn-primary-bg-dark: var(--accent-primary-dark);
-            --btn-primary-text-dark: #1A202C; /* Dark text for contrast on bright teal */
+            --btn-primary-text-dark: #FFFFFF;
             --btn-secondary-border-dark: var(--accent-primary-dark);
-            --btn-secondary-text-dark: var(--accent-primary-dark);
+            --btn-secondary-text-dark: #C7D2FE;
 
+            --accent-primary-dark-rgb: 79, 70, 229;
+            --accent-primary-light-rgb: 49, 130, 206;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            /* UPDATE: Slightly reduced base font size */
-            font-size: 0.78rem;
-            line-height: 1.6;
+            /* UPDATE: Font size adjusted to be slightly smaller but readable */
+            font-size: 0.92rem; /* Adjusted from user's 0.88rem and my previous 0.96rem */
+            line-height: 1.55; /* Adjusted line height for better readability */
             background-color: var(--bg-dark);
             color: var(--text-dark);
             scroll-behavior: smooth;
@@ -61,83 +63,163 @@
         }
 
         #hero-canvas {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.25; /* Adjusted opacity */
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.18;
         }
-        html.light #hero-canvas { opacity: 0.15; }
+        html.light #hero-canvas { opacity: 0.08; }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); } /* Match bg */
-        html.light ::-webkit-scrollbar-track { background: var(--bg-light); } /* Match bg */
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        html.light ::-webkit-scrollbar-track { background: var(--bg-light); }
         ::-webkit-scrollbar-thumb { background: var(--accent-primary-dark); border-radius: 4px; }
         html.light ::-webkit-scrollbar-thumb { background: var(--accent-primary-light); }
 
-        /* UPDATE: Headings and Nav use Poppins */
         .section-heading, nav .nav-link, nav .self-center, .custom-btn {
             font-family: 'Poppins', sans-serif;
         }
 
         .section-heading {
-            font-size: 1.5rem; /* Adjusted size */
-            font-weight: 600; /* Poppins bold */
-            margin-bottom: 1rem; text-align: center;
+            font-size: 2.0rem; /* Adjusted from 2.3rem / 2.2rem */
+            font-weight: 600; margin-bottom: 0.9rem; text-align: center;
             color: var(--heading-color-dark);
-            letter-spacing: 0.03em; /* Adjusted spacing */
-            position: relative;
-            padding-bottom: 0.85rem;
+            letter-spacing: 0.02em; position: relative; padding-bottom: 0.75rem;
         }
         html.light .section-heading { color: var(--heading-color-light); }
 
         .section-heading::after {
-            content: ''; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0;
-            width: 70px; height: 3px;
-            background-color: var(--accent-primary-dark); /* Primary accent for underline */
+            width: 60px; height: 2.5px; /* Adjusted underline */
+            background-color: var(--accent-primary-dark);
             border-radius: 2px;
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0;
         }
         html.light .section-heading::after { background-color: var(--accent-primary-light); }
 
         @media (min-width: 768px) {
-            .section-heading { font-size: 2.3rem; margin-bottom: 1.5rem; padding-bottom: 1.1rem;}
-            .section-heading::after { width: 90px; height: 4px; }
+            .section-heading { font-size: 2.5rem; margin-bottom: 1.2rem; padding-bottom: 0.9rem;} /* Adjusted */
+            .section-heading::after { width: 75px; height: 3px; } /* Adjusted */
         }
 
         .glass-card {
             background: var(--card-bg-dark);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); /* Enhanced blur */
-            border-radius: 0.85rem; /* Slightly more rounded */
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius: 0.75rem;
             border: 1px solid var(--card-border-dark);
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
         }
         html.light .glass-card {
             background: var(--card-bg-light);
             border: 1px solid var(--card-border-light);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
         }
         .glass-card:hover {
-            transform: translateY(-10px); /* More lift */
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            transform: translateY(-7px); /* Slightly less lift */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         html.light .glass-card:hover {
-             box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .project-card {
+            background-color: #262F3D; /* Adjusted from user's #2D3748 for consistency if needed */
+            color: var(--text-dark);
+            border-radius: 0.75rem; padding: 1.25rem; /* p-5 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; flex-direction: column;
+        }
+        html.light .project-card {
+            background-color: #E2E8F0; color: var(--text-light);
+            border: 1px solid var(--card-border-light);
+        }
+        .project-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 9px 18px rgba(0,0,0,0.18);
+        }
+        html.light .project-card:hover {
+            box-shadow: 0 7px 14px rgba(0,0,0,0.09);
+        }
+        .project-card .project-image-placeholder {
+            background-color: #374151; border-radius: 0.5rem;
+            /* These are already in the HTML, no need to repeat here unless overriding */
+        }
+        html.light .project-card .project-image-placeholder { background-color: #CBD5E0; }
+
+        .project-card .project-title {
+            color: #E2E8F0; font-weight: 600;
+            font-size: 1.1rem; /* Adjusted from 1.2rem */
+        }
+        html.light .project-card .project-title { color: #2C5282; }
+
+        .project-card .project-description {
+            color: #A0AEC0; font-size: 0.85rem; /* Adjusted from 0.875rem */
+        }
+        html.light .project-card .project-description { color: #4A5568; }
+
+        .project-card .custom-btn, .project-card .custom-btn-secondary {
+            padding: 0.45rem 0.9rem; font-size: 0.8rem; /* Adjusted from 0.825rem */
+        }
+        .project-card .custom-btn {
+            background-color: #4F46E5; color: #FFFFFF;
+        }
+        html.light .project-card .custom-btn {
+             background-color: var(--accent-primary-light);
+             color: var(--btn-primary-text-light);
+        }
+        .project-card .custom-btn-secondary {
+            background-color: #374151; color: #A0AEC0;
+            border: 1px solid #4A5568;
+        }
+        html.light .project-card .custom-btn-secondary {
+            background-color: #E2E8F0; color: var(--accent-primary-light);
+            border: 1px solid var(--accent-primary-light);
+        }
+        .project-card .custom-btn:hover, .project-card .custom-btn-secondary:hover {
+            filter: brightness(1.1);
+        }
+
+        #contact .glass-card {
+            background-color: #1F2937;
+        }
+        html.light #contact .glass-card { background-color: #F9FAFB; }
+
+        #contact .form-input {
+            background-color: #2D3748; border-color: #4A5568; color: var(--text-dark);
+            border-radius: 0.5rem;
+            font-size: 0.9rem; /* Adjusted from 0.92rem */
+        }
+        html.light #contact .form-input {
+            background-color: #E5E7EB; border-color: #D1D5DB; color: var(--text-light);
+        }
+        #contact .form-input::placeholder { color: #9CA3AF; }
+        html.light #contact .form-input::placeholder { color: #6B7280; }
+
+        #contact .custom-btn {
+            background-color: #4F46E5;
+            /* FIX: Ensure text color is explicitly white for light mode too */
+            color: #FFFFFF !important;
+        }
+        html.light #contact .custom-btn {
+            background-color: var(--accent-primary-light);
+            color: #FFFFFF !important; /* Explicitly white */
         }
 
         .custom-btn {
             background-color: var(--btn-primary-bg-dark); color: var(--btn-primary-text-dark);
-            padding: 0.8rem 1.6rem; border-radius: 0.5rem; font-weight: 500; /* Poppins medium */
+            padding: 0.7rem 1.4rem; border-radius: 0.5rem; font-weight: 500;
+            font-size: 0.9rem; /* Adjusted from 0.92rem */
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             display: inline-block; text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0, 0.2); /* Softer, more diffused shadow */
+            box-shadow: 0 4px 8px rgba(0,0,0, 0.15); /* Adjusted shadow */
         }
         html.light .custom-btn {
             background-color: var(--btn-primary-bg-light); color: var(--btn-primary-text-light);
-            box-shadow: 0 4px 8px rgba(0,0,0, 0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0, 0.08);
         }
         .custom-btn:hover {
-            filter: brightness(1.15); /* Brighter on hover */
-            transform: scale(1.03) translateY(-3px);
-            box-shadow: 0 7px 14px rgba(0,0,0, 0.25);
+            filter: brightness(1.12); /* Slightly adjusted brightness */
+            transform: scale(1.025) translateY(-2.5px); /* Slightly adjusted transform */
+            box-shadow: 0 6px 12px rgba(0,0,0, 0.2);
         }
         html.light .custom-btn:hover {
-             box-shadow: 0 7px 14px rgba(0,0,0, 0.15);
+             box-shadow: 0 6px 12px rgba(0,0,0, 0.12);
         }
         .custom-btn-secondary {
             background-color: transparent; color: var(--btn-secondary-text-dark);
@@ -148,50 +230,61 @@
         }
         .custom-btn-secondary:hover {
             background-color: var(--btn-secondary-border-dark); color: var(--btn-primary-text-dark);
-            filter: brightness(1.15);
+            filter: brightness(1.12);
         }
         html.light .custom-btn-secondary:hover {
             background-color: var(--btn-secondary-border-light); color: var(--btn-primary-text-light);
         }
 
+        nav .self-center {
+            font-size: 1.15rem; /* Adjusted from 1.2rem */
+        }
+        @media (min-width: 768px) {
+            nav .self-center { font-size: 1.3rem; } /* Adjusted */
+        }
+        nav .nav-link {
+            font-size: 0.9rem; /* Adjusted from 0.92rem */
+            font-weight: 500;
+        }
         nav {
             background-color: var(--nav-bg-dark);
-            border-bottom-color: var(--card-border-dark); /* Match card border */
+            border-bottom-color: var(--card-border-dark);
         }
         html.light nav {
             background-color: var(--nav-bg-light);
             border-bottom-color: var(--card-border-light);
         }
-        nav .nav-link { color: var(--nav-text-dark); font-weight: 500; } /* Poppins medium */
+        nav .nav-link { color: var(--nav-text-dark); }
         html.light nav .nav-link { color: var(--nav-text-light); }
         nav .nav-link.active {
-            color: var(--nav-active-dark); font-weight: 600; position: relative; /* Poppins semibold */
+            color: var(--nav-active-dark); font-weight: 600; position: relative;
         }
         html.light nav .nav-link.active { color: var(--nav-active-light); }
         nav .nav-link.active::after {
-            background-color: var(--nav-active-dark); height: 2.5px; /* Slightly thicker */
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2.5px;
+            background-color: var(--nav-active-dark);
         }
         html.light nav .nav-link.active::after { background-color: var(--nav-active-light); }
         nav .nav-link:hover { color: var(--nav-active-dark); }
         html.light nav .nav-link:hover { color: var(--nav-active-light); }
 
         .profile-photo-container {
-            position: relative; padding: 6px; /* Adjusted padding */
-            border-radius: 0.75rem; /* Rounded square frame */
+            position: relative; padding: 6px;
+            border-radius: 0.75rem;
             overflow: hidden; display: inline-block;
-            animation: subtleFloat 5s ease-in-out infinite; /* Slower float */
-            box-shadow: 0 0 25px rgba(var(--accent-primary-dark-rgb), 0.3); /* Glow effect */
+            animation: subtleFloat 5s ease-in-out infinite;
+            box-shadow: 0 0 25px rgba(var(--accent-primary-dark-rgb), 0.3);
         }
         html.light .profile-photo-container {
             box-shadow: 0 0 25px rgba(var(--accent-primary-light-rgb), 0.2);
         }
         .profile-photo-container::before, .profile-photo-container::after {
-            content: ''; position: absolute; border-radius: 0.6rem; /* Match inner image */
+            content: ''; position: absolute; border-radius: 0.6rem;
         }
         .profile-photo-container::before {
             top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
             background: conic-gradient(from 90deg, var(--accent-primary-dark) 0%, var(--accent-secondary-dark) 50%, var(--accent-primary-dark) 100%);
-            animation: spin 6s linear infinite; /* Slower spin */
+            animation: spin 6s linear infinite;
         }
         html.light .profile-photo-container::before {
              background: conic-gradient(from 90deg, var(--accent-primary-light) 0%, var(--accent-secondary-light) 50%, var(--accent-primary-light) 100%);
@@ -201,53 +294,60 @@
             background-color: var(--bg-dark);
         }
         html.light .profile-photo-container::after { background-color: var(--bg-light); }
-
         .profile-photo {
-            border-radius: 0.5rem; /* Rounded square image */
-            object-fit: cover; position: relative; z-index: 1;
-            width: 100%; height: 100%; /* Ensure it fills the container */
+            border-radius: 0.5rem; object-fit: cover; position: relative; z-index: 1;
+            width: 100%; height: 100%;
         }
-
-        @keyframes subtleFloat { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
+        @keyframes subtleFloat { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(1deg); } } /* Adjusted float */
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .project-image-placeholder { /* Styles remain similar, colors themed */ }
-        .education-item { /* Styles remain similar, colors themed */ }
-        #theme-toggle { /* Styles remain similar, colors themed */ }
-        .skill-text { /* Styles remain similar, colors themed */ }
-        .project-title { color: var(--heading-color-dark); font-weight: 600; } /* Poppins semibold */
-        html.light .project-title { color: var(--heading-color-light); }
-        .project-description { color: var(--text-dark); opacity: 0.8; }
-        html.light .project-description { color: var(--text-light); opacity: 0.85; }
-        .form-label { color: var(--heading-color-dark); font-weight: 500; } /* Poppins medium */
-        html.light .form-label { color: var(--heading-color-light); }
-        .form-input { /* Styles remain similar, colors themed */ }
-        .form-input::placeholder { /* Styles remain similar, colors themed */ }
-
-        /* Add RGB versions of accent colors for box-shadow glow */
-        :root {
-            --accent-primary-dark-rgb: 79, 209, 197; /* For #4FD1C5 */
-            --accent-primary-light-rgb: 56, 178, 172; /* For #38B2AC */
+        .education-degree-title {
+            color: var(--accent-secondary-dark) !important;
+            font-weight: 700;
         }
+        html.light .education-degree-title {
+            color: var(--accent-secondary-light) !important;
+        }
+        .education-item {
+            border-left: 3px solid var(--accent-primary-dark); padding-left: 1.5rem; margin-bottom: 1.5rem; position: relative;
+        }
+        html.light .education-item { border-left-color: var(--accent-primary-light); }
+        .education-item::before {
+            content: ''; position: absolute; left: -7px; top: 5px; width: 12px; height: 12px;
+            background-color: var(--accent-primary-dark); border-radius: 50%;
+            border: 2px solid var(--bg-dark);
+        }
+        html.light .education-item::before {
+            background-color: var(--accent-primary-light);
+            border-color: var(--bg-light);
+        }
+        .form-label { color: var(--heading-color-dark); font-weight: 500; }
+        html.light .form-label { color: var(--heading-color-light); }
+
+        .text-content-card {
+            font-size: 0.92rem; /* Adjusted to match new body font size or slightly larger for readability */
+        }
+        html.light .text-content-card { /* ... */ }
     </style>
 </head>
-<body class="antialiased text-sm md:text-base"> <nav class="backdrop-blur-lg fixed w-full z-20 top-0 start-0 border-b shadow-xl">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+<body class="antialiased">
+    <nav class="backdrop-blur-lg fixed w-full z-20 top-0 start-0 border-b shadow-xl">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3 md:p-4">
             <a href="#hero" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <span class="self-center text-xl md:text-2xl font-semibold whitespace-nowrap hover:opacity-80 transition-opacity">TASUNTHA C. DAYASIRI</span>
+                <span class="self-center hover:opacity-80 transition-opacity">TASUNTHA C. DAYASIRI</span>
             </a>
             <div class="flex items-center md:order-2 space-x-2 md:space-x-3 rtl:space-x-reverse">
                  <button id="theme-toggle" type="button" class="focus:outline-none rounded-lg text-lg p-2 transition-colors">
-                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
                 </button>
-                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-9 h-9 md:w-10 md:h-10 justify-center text-sm rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/></svg>
+                    <svg class="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/></svg>
                 </button>
             </div>
             <div class="hidden w-full md:block md:w-auto md:order-1" id="navbar-sticky">
-                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium text-base border border-gray-700 rounded-lg md:bg-transparent md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border-gray-700 rounded-lg md:bg-transparent md:flex-row md:space-x-6 lg:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
                     <li><a href="#hero" class="nav-link block py-2 px-3 md:p-0">Home</a></li>
                     <li><a href="#about" class="nav-link block py-2 px-3 md:p-0">About</a></li>
                     <li><a href="#education" class="nav-link block py-2 px-3 md:p-0">Education</a></li>
@@ -262,57 +362,57 @@
     <section id="hero" class="relative min-h-screen flex items-center justify-center text-center overflow-hidden px-4">
         <canvas id="hero-canvas"></canvas>
         <div class="z-10 relative">
-            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent-primary-dark)] via-[var(--accent-secondary-dark)] to-[var(--heading-color-dark)] dark:from-[var(--accent-primary-dark)] dark:via-[var(--accent-secondary-dark)] dark:to-[var(--heading-color-dark)]">
-                TASUNTHA CHATHUNIKA DAYASIRI
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-bold mb-3 md:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent-primary-dark)] via-[var(--accent-secondary-dark)] to-[var(--heading-color-dark)]"> TASUNTHA CHATHUNIKA DAYASIRI
             </h1>
-            <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 font-medium">Aspiring Software Engineer & Web Developer</p> <p class="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-10 opacity-90">
+            <p class="text-md sm:text-lg md:text-xl lg:text-2xl mb-6 md:mb-8 font-medium">Aspiring Software Engineer & Web Developer</p>
+            <p class="text-sm sm:text-base md:text-lg max-w-xl md:max-w-2xl mx-auto mb-8 md:mb-10 opacity-90">
                 I am a dedicated and passionate individual, currently pursuing BICT (Hons), with a strong interest in developing innovative software solutions and creating engaging web experiences.
             </p>
-            <a href="#projects" class="custom-btn mr-2 mb-2 text-sm sm:text-base">View My Work <i class="fas fa-arrow-right ml-2"></i></a>
-            <a href="#contact" class="custom-btn custom-btn-secondary mb-2 text-sm sm:text-base">Get In Touch <i class="fas fa-envelope ml-2"></i></a>
+            <a href="#projects" class="custom-btn mr-1 sm:mr-2 mb-2">View My Work <i class="fas fa-arrow-right ml-1 sm:ml-2"></i></a>
+            <a href="#contact" class="custom-btn custom-btn-secondary mb-2">Get In Touch <i class="fas fa-envelope ml-1 sm:ml-2"></i></a>
         </div>
     </section>
 
-    <section id="about" class="py-16 md:py-24">
-        <div class="container mx-auto px-6 md:px-12">
+    <section id="about" class="py-12 md:py-20">
+        <div class="container mx-auto px-4 sm:px-6 md:px-12">
             <h2 class="section-heading">About Me</h2>
-            <div class="grid md:grid-cols-5 gap-10 lg:gap-16 items-center">
+            <div class="grid md:grid-cols-5 gap-8 md:gap-10 lg:gap-16 items-center">
                 <div class="md:col-span-2 flex justify-center order-1">
-                    <div class="profile-photo-container w-60 h-60 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-[350px] lg:h-[350px]">
+                    <div class="profile-photo-container w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-[320px] lg:h-[320px]">
                         <img src="IMG_20240613_205017.jpg" alt="Tasuntha Chathunika Dayasiri" id="profilePhoto" class="profile-photo">
                     </div>
                 </div>
-                <div class="md:col-span-3 glass-card p-6 md:p-8 order-2">
-                    <p class="text-lg mb-4">
+                <div class="md:col-span-3 glass-card p-5 md:p-6 order-2 text-content-card">
+                    <p class="text-base md:text-lg mb-3 md:mb-4">
                         Hello! I'm Tasuntha Chathunika Dayasiri, a highly motivated and results-oriented student at the University of Vavuniya, pursuing a Bachelor of Information and Communication Technology (Hons).
                         My primary goal is to leverage my growing technical skills and creativity to contribute to impactful projects in the tech industry.
                     </p>
-                    <p class="text-lg mb-4">
+                    <p class="text-base md:text-lg mb-3 md:mb-4">
                         I have a strong foundation in web development (HTML, CSS, JavaScript, React, Tailwind CSS) and backend development (Node.js). I'm also enthusiastic about exploring creative coding with Three.js and p5.js. My skillset extends to C, C++, C#, and Java, along with design and video editing tools like Adobe Photoshop, Illustrator, Premiere Pro, and CapCut. I am a quick learner, a collaborative team player, and always eager to take on new challenges.
                     </p>
-                    <a href="[Link to Your CV - Google Drive or Dropbox]" target="_blank" class="custom-btn mt-4 text-sm sm:text-base">Download My CV <i class="fas fa-download ml-2"></i></a>
+                    <a href="[Link to Your CV - Google Drive or Dropbox]" target="_blank" class="custom-btn mt-3 md:mt-4">Download My CV <i class="fas fa-download ml-1 sm:ml-2"></i></a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="education" class="py-16 md:py-24">
-        <div class="container mx-auto px-6 md:px-12">
+    <section id="education" class="py-12 md:py-20">
+        <div class="container mx-auto px-4 sm:px-6 md:px-12">
             <h2 class="section-heading">My Education</h2>
-            <div class="max-w-3xl mx-auto">
-                <div class="glass-card p-6 md:p-8 mb-8 education-item">
-                    <h3 class="text-xl md:text-2xl font-semibold project-title mb-1">Bachelor of Information and Communication Technology (Hons)</h3>
-                    <p class="text-md project-description mb-1">University of Vavuniya | Vavuniya, Sri Lanka</p>
-                    <p class="text-sm opacity-70 mb-3">2027 - Present (Expected Graduation: [ 2027 ])</p>
-                    <p class="text-base">
+            <div class="max-w-2xl md:max-w-3xl mx-auto">
+                <div class="glass-card p-5 md:p-6 mb-6 md:mb-8 education-item">
+                    <h3 class="text-lg md:text-xl font-semibold project-title education-degree-title mb-1">Bachelor of Information and Communication Technology (Hons)</h3>
+                    <p class="text-sm md:text-base project-description mb-1">University of Vavuniya | Vavuniya, Sri Lanka</p>
+                    <p class="text-xs sm:text-sm opacity-70 mb-2 md:mb-3">[Year Started] - Present (Expected Graduation: [Year])</p>
+                    <p class="text-sm md:text-base text-content-card">
                         Focusing on software engineering, web development, database management, and networking. Actively involved in practical projects and seeking to apply theoretical knowledge to real-world scenarios.
                     </p>
                 </div>
-                <div class="glass-card p-6 md:p-8 education-item">
-                    <h3 class="text-xl md:text-2xl font-semibold project-title mb-1">Secondary Education (A/L & O/L)</h3>
-                    <p class="text-md project-description mb-1">Katukurunda Dharmapala M.V. | Katukurunda, Sri Lanka</p>
-                    <p class="text-sm opacity-70 mb-3">[Year Started O/L] - [Year Finished A/L]</p>
-                    <p class="text-base">
+                <div class="glass-card p-5 md:p-6 education-item">
+                    <h3 class="text-lg md:text-xl font-semibold project-title mb-1">Secondary Education (A/L & O/L)</h3>
+                    <p class="text-sm md:text-base project-description mb-1">Katukurunda Dharmapala M.V. | Katukurunda, Sri Lanka</p>
+                    <p class="text-xs sm:text-sm opacity-70 mb-2 md:mb-3">[Year Started O/L] - [Year Finished A/L]</p>
+                    <p class="text-sm md:text-base text-content-card">
                         Completed G.C.E. Advanced Level in the Physical Science stream and G.C.E. Ordinary Level with excellent results.
                     </p>
                 </div>
@@ -320,144 +420,128 @@
         </div>
     </section>
 
-    <section id="skills" class="py-16 md:py-24">
-        <div class="container mx-auto px-6 md:px-12">
-            <h2 class="section-heading">My Skills</h2>
-           
-            <br>
-            <h3 class="text-center text-xl font-medium project-title mb-6 -mt-4 md:-mt-6">Programming & Web Technologies</h3>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-6 text-center mb-12">
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-html5 text-4xl sm:text-5xl text-orange-500 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">HTML5</p></div>
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-css3-alt text-4xl sm:text-5xl text-blue-500 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">CSS3</p></div>
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-js-square text-4xl sm:text-5xl text-yellow-400 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">JavaScript</p></div>
-             
-
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-c text-4xl sm:text-5xl text-blue-600 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">C</p></div>
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-laptop-code text-4xl sm:text-5xl text-purple-500 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">C++</p></div>
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-code text-4xl sm:text-5xl text-violet-500 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">C#</p></div>
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-java text-4xl sm:text-5xl text-red-500 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">Java</p></div>
- 
-
+    <section id="skills" class="py-12 md:py-20">
+        <div class="container mx-auto px-4 sm:px-6 md:px-12">
+            <h2 class="section-heading">My Skills</h2><br>
+            <h3 class="text-center text-lg md:text-xl font-medium project-title mb-5 md:mb-6 -mt-3 md:-mt-4">Programming & Web Technologies</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5 text-center mb-10 md:mb-12">
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-html5 text-3xl sm:text-4xl text-orange-500 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">HTML5</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-css3-alt text-3xl sm:text-4xl text-blue-500 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">CSS3</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-js-square text-3xl sm:text-4xl text-yellow-400 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">JavaScript</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/1024px-Tailwind_CSS_Logo.svg.png" alt="Tailwind CSS" class="h-9 sm:h-10 mx-auto mb-1 sm:mb-2"><p class="font-medium skill-text text-sm sm:text-base">Tailwind CSS</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-react text-3xl sm:text-4xl text-sky-400 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">React</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-node-js text-3xl sm:text-4xl text-green-500 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">Node.js</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-c text-3xl sm:text-4xl text-blue-600 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">C</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-laptop-code text-3xl sm:text-4xl text-purple-500 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">C++</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-code text-3xl sm:text-4xl text-violet-500 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">C#</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-java text-3xl sm:text-4xl text-red-500 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">Java</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-cubes text-3xl sm:text-4xl text-teal-400 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">Three.js</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><svg viewBox="0 0 256 256" class="h-9 sm:h-10 mx-auto mb-1 sm:mb-2 fill-current text-pink-500"><path d="M128 24a104 104 0 10104 104A104.11 104.11 0 00128 24zm-36 56a12 12 0 0112-12h48a12 12 0 010 24h-48a12 12 0 01-12-12zm72 104H92a12 12 0 010-24h72a12 12 0 010 24zm0-40H92a12 12 0 010-24h72a12 12 0 010 24z"/></svg><p class="font-medium skill-text text-sm sm:text-base">p5.js</p></div>
             </div>
-            <h3 class="text-center text-xl font-medium project-title mb-6">Design & Video Editing</h3>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-6 text-center">
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-palette text-4xl sm:text-5xl text-blue-400 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">Photoshop</p></div>
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-vector-square text-4xl sm:text-5xl text-orange-400 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">Illustrator</p></div>
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-film text-4xl sm:text-5xl text-purple-400 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">Premiere Pro</p></div>
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-cut text-4xl sm:text-5xl text-red-400 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">CapCut</p></div>
-                <div class="glass-card p-4 sm:p-5 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-figma text-4xl sm:text-5xl text-pink-500 mb-2 sm:mb-3"></i><p class="font-medium skill-text text-sm sm:text-base">Figma</p></div>
+            <h3 class="text-center text-lg md:text-xl font-medium project-title mb-5 md:mb-6">Design & Video Editing</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5 text-center">
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-palette text-3xl sm:text-4xl text-blue-400 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">Photoshop</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-vector-square text-3xl sm:text-4xl text-orange-400 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">Illustrator</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-film text-3xl sm:text-4xl text-purple-400 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">Premiere Pro</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fas fa-cut text-3xl sm:text-4xl text-red-400 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">CapCut</p></div>
+                <div class="glass-card p-3 sm:p-4 transform hover:scale-105 transition-transform duration-300"><i class="fab fa-figma text-3xl sm:text-4xl text-pink-500 mb-1 sm:mb-2"></i><p class="font-medium skill-text text-sm sm:text-base">Figma</p></div>
             </div>
         </div>
     </section>
 
-    <section id="projects" class="py-16 md:py-24">
-        <div class="container mx-auto px-6 md:px-12">
+    <section id="projects" class="py-12 md:py-20">
+        <div class="container mx-auto px-4 sm:px-6 md:px-12">
             <h2 class="section-heading">My Projects</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="glass-card overflow-hidden flex flex-col">
-                    <div class="project-image-placeholder h-52 sm:h-56 w-full"><i class="fas fa-globe text-5xl sm:text-6xl"></i></div>
-                    <div class="p-5 md:p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl md:text-2xl font-semibold mb-2 project-title">[Web Project Name]</h3>
-                        <p class="project-description text-sm mb-4 flex-grow">[Brief description of your web project. What problem does it solve? What are its key features?]</p>
-                        <div class="mb-4">
-                            <span class="inline-block bg-gray-600 dark:bg-gray-700 text-gray-200 dark:text-gray-300 text-xs font-medium mr-2 px-2.5 py-1 rounded-full">React</span>
-                            <span class="inline-block bg-gray-600 dark:bg-gray-700 text-gray-200 dark:text-gray-300 text-xs font-medium mr-2 px-2.5 py-1 rounded-full">Node.js</span>
-                            <span class="inline-block bg-gray-600 dark:bg-gray-700 text-gray-200 dark:text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full">MongoDB</span>
-                        </div>
-                        <div class="flex space-x-3 mt-auto">
-                            <a href="[LIVE_DEMO_LINK_1]" target="_blank" class="custom-btn text-xs sm:text-sm py-2 px-3 sm:px-4">Live Demo <i class="fas fa-external-link-alt ml-1"></i></a>
-                            <a href="[SOURCE_CODE_LINK_1]" target="_blank" class="custom-btn custom-btn-secondary text-xs sm:text-sm py-2 px-3 sm:px-4">Source Code <i class="fab fa-github ml-1"></i></a>
-                        </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="project-card">
+                    <div class="project-image-placeholder h-48 sm:h-52 w-full mb-3 md:mb-4"><i class="fas fa-globe text-4xl sm:text-5xl"></i></div>
+                    <h3 class="mb-1 md:mb-2 project-title">[Web Project Name]</h3>
+                    <p class="project-description mb-3 md:mb-4 flex-grow">[Brief description of your web project. What problem does it solve? What are its key features?]</p>
+                    <div class="mb-3 md:mb-4">
+                        <span class="inline-block bg-indigo-500 text-indigo-100 text-xs font-medium mr-2 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">React</span>
+                        <span class="inline-block bg-green-500 text-green-100 text-xs font-medium mr-2 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">Node.js</span>
+                        <span class="inline-block bg-purple-500 text-purple-100 text-xs font-medium px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">MongoDB</span>
+                    </div>
+                    <div class="flex space-x-2 sm:space-x-3 mt-auto">
+                        <a href="[LIVE_DEMO_LINK_1]" target="_blank" class="custom-btn">Live Demo <i class="fas fa-external-link-alt ml-1"></i></a>
+                        <a href="[SOURCE_CODE_LINK_1]" target="_blank" class="custom-btn custom-btn-secondary">Source Code <i class="fab fa-github ml-1"></i></a>
                     </div>
                 </div>
 
-                <div class="glass-card overflow-hidden flex flex-col">
-                    <div class="project-image-placeholder h-52 sm:h-56 w-full"><i class="fas fa-desktop text-5xl sm:text-6xl"></i></div>
-                    <div class="p-5 md:p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl md:text-2xl font-semibold mb-2 project-title">[C# Project Name]</h3>
-                        <p class="project-description text-sm mb-4 flex-grow">[Brief description of your C# project. Is it a desktop app, game, or something else? What does it do?]</p>
-                        <div class="mb-4">
-                            <span class="inline-block bg-purple-600 text-purple-100 text-xs font-medium mr-2 px-2.5 py-1 rounded-full">C#</span>
-                            <span class="inline-block bg-gray-600 dark:bg-gray-700 text-gray-200 dark:text-gray-300 text-xs font-medium mr-2 px-2.5 py-1 rounded-full">.NET</span>
-                            </div>
-                        <div class="flex space-x-3 mt-auto">
-                            <a href="[SOURCE_CODE_LINK_CSHARP]" target="_blank" class="custom-btn custom-btn-secondary text-xs sm:text-sm py-2 px-3 sm:px-4">Source Code <i class="fab fa-github ml-1"></i></a>
-                        </div>
+                <div class="project-card">
+                    <div class="project-image-placeholder h-48 sm:h-52 w-full mb-3 md:mb-4"><i class="fas fa-desktop text-4xl sm:text-5xl"></i></div>
+                    <h3 class="mb-1 md:mb-2 project-title">[C# Project Name]</h3>
+                    <p class="project-description mb-3 md:mb-4 flex-grow">[Brief description of your C# project. Is it a desktop app, game, or something else? What does it do?]</p>
+                    <div class="mb-3 md:mb-4">
+                        <span class="inline-block bg-violet-500 text-violet-100 text-xs font-medium mr-2 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">C#</span>
+                        <span class="inline-block bg-gray-500 text-gray-100 text-xs font-medium mr-2 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">.NET</span>
+                    </div>
+                    <div class="flex space-x-2 sm:space-x-3 mt-auto">
+                        <a href="[SOURCE_CODE_LINK_CSHARP]" target="_blank" class="custom-btn custom-btn-secondary">Source Code <i class="fab fa-github ml-1"></i></a>
                     </div>
                 </div>
 
-                <div class="glass-card overflow-hidden flex flex-col">
-                    <div class="project-image-placeholder h-52 sm:h-56 w-full"><i class="fab fa-figma text-5xl sm:text-6xl"></i></div>
-                    <div class="p-5 md:p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl md:text-2xl font-semibold mb-2 project-title">[Figma Design Project Name]</h3>
-                        <p class="project-description text-sm mb-4 flex-grow">[Brief description of your Figma design. Was it for an app, website, or a concept? What was the goal?]</p>
-                        <div class="mb-4">
-                            <span class="inline-block bg-pink-500 text-pink-100 text-xs font-medium mr-2 px-2.5 py-1 rounded-full">Figma</span>
-                            <span class="inline-block bg-gray-600 dark:bg-gray-700 text-gray-200 dark:text-gray-300 text-xs font-medium mr-2 px-2.5 py-1 rounded-full">UI/UX Design</span>
-                        </div>
-                        <div class="flex space-x-3 mt-auto">
-                            <a href="[FIGMA_PROJECT_LINK_OR_BEHANCE]" target="_blank" class="custom-btn text-xs sm:text-sm py-2 px-3 sm:px-4">View Design <i class="fas fa-palette ml-1"></i></a>
-                            </div>
+                <div class="project-card">
+                    <div class="project-image-placeholder h-48 sm:h-52 w-full mb-3 md:mb-4"><i class="fab fa-figma text-4xl sm:text-5xl"></i></div>
+                    <h3 class="mb-1 md:mb-2 project-title">[Figma Design Project Name]</h3>
+                    <p class="project-description mb-3 md:mb-4 flex-grow">[Brief description of your Figma design. Was it for an app, website, or a concept? What was the goal?]</p>
+                    <div class="mb-3 md:mb-4">
+                        <span class="inline-block bg-pink-500 text-pink-100 text-xs font-medium mr-2 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">Figma</span>
+                        <span class="inline-block bg-orange-500 text-orange-100 text-xs font-medium mr-2 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">UI/UX Design</span>
+                    </div>
+                    <div class="flex space-x-2 sm:space-x-3 mt-auto">
+                        <a href="[FIGMA_PROJECT_LINK_OR_BEHANCE]" target="_blank" class="custom-btn">View Design <i class="fas fa-palette ml-1"></i></a>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
     </section>
 
-    <section id="contact" class="py-16 md:py-24">
-        <div class="container mx-auto px-6 md:px-12">
+    <section id="contact" class="py-12 md:py-20">
+        <div class="container mx-auto px-4 sm:px-6 md:px-12">
             <h2 class="section-heading">Get In Touch</h2>
-            <div class="max-w-3xl mx-auto glass-card p-6 md:p-8">
-                <p class="text-center text-lg mb-8 opacity-90">
+            <div class="max-w-2xl md:max-w-3xl mx-auto glass-card p-5 md:p-6">
+                <p class="text-center text-base md:text-lg mb-6 md:mb-8 opacity-90">
                     Have a project, an idea, or just want to chat? Fill out the form below or connect with me through my social media channels. I'd love to hear from you!
                 </p>
                 <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-                    <div class="mb-5">
-                        <label for="name" class="block mb-2 text-sm font-medium form-label">Your Name</label>
-                        <input type="text" id="name" name="name" class="form-input border text-sm rounded-lg focus:ring-[var(--accent-primary-dark)] focus:border-[var(--accent-primary-dark)] dark:focus:ring-[var(--accent-primary-dark)] dark:focus:border-[var(--accent-primary-dark)] block w-full p-3 placeholder-gray-500 dark:placeholder-gray-400" placeholder="Enter your name" required>
+                    <div class="mb-4 md:mb-5">
+                        <label for="name" class="block mb-1 sm:mb-2 text-sm sm:text-base font-medium form-label">Your Name</label>
+                        <input type="text" id="name" name="name" class="form-input w-full p-2.5 sm:p-3" placeholder="Enter your name" required>
                     </div>
-                    <div class="mb-5">
-                        <label for="email" class="block mb-2 text-sm font-medium form-label">Your Email</label>
-                        <input type="email" id="email" name="email" class="form-input border text-sm rounded-lg focus:ring-[var(--accent-primary-dark)] focus:border-[var(--accent-primary-dark)] dark:focus:ring-[var(--accent-primary-dark)] dark:focus:border-[var(--accent-primary-dark)] block w-full p-3 placeholder-gray-500 dark:placeholder-gray-400" placeholder="name@example.com" required>
+                    <div class="mb-4 md:mb-5">
+                        <label for="email" class="block mb-1 sm:mb-2 text-sm sm:text-base font-medium form-label">Your Email</label>
+                        <input type="email" id="email" name="email" class="form-input w-full p-2.5 sm:p-3" placeholder="name@example.com" required>
                     </div>
-                    <div class="mb-5">
-                        <label for="message" class="block mb-2 text-sm font-medium form-label">Your Message</label>
-                        <textarea id="message" name="message" rows="5" class="form-input border text-sm rounded-lg focus:ring-[var(--accent-primary-dark)] focus:border-[var(--accent-primary-dark)] dark:focus:ring-[var(--accent-primary-dark)] dark:focus:border-[var(--accent-primary-dark)] block w-full p-3 placeholder-gray-500 dark:placeholder-gray-400" placeholder="Write your message here..." required></textarea>
+                    <div class="mb-4 md:mb-5">
+                        <label for="message" class="block mb-1 sm:mb-2 text-sm sm:text-base font-medium form-label">Your Message</label>
+                        <textarea id="message" name="message" rows="4" class="form-input w-full p-2.5 sm:p-3" placeholder="Write your message here..." required></textarea>
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="custom-btn w-full md:w-auto text-sm sm:text-base">Send Message <i class="fas fa-paper-plane ml-2"></i></button>
+                        <button type="submit" class="custom-btn w-full md:w-auto">Send Message <i class="fas fa-paper-plane ml-1 sm:ml-2"></i></button>
                     </div>
                 </form>
-                <div class="mt-10 text-center">
-                    <p class="text-lg form-label mb-4">Or find me on:</p>
-                    <div class="flex justify-center space-x-5 sm:space-x-6">
-                        <a href="https://www.linkedin.com/in/tasuntha-chathunika" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="opacity-75 hover:opacity-100 transition-opacity text-3xl sm:text-4xl transform hover:scale-110">
-  <i class="fab fa-linkedin"></i>
-</a>
-<a href="https://github.com/Tasuntha-Chathunika" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="opacity-75 hover:opacity-100 transition-opacity text-3xl sm:text-4xl transform hover:scale-110">
-  <i class="fab fa-github"></i>
-</a>
-<a href="https://www.facebook.com/share/1Eq64hpb1T/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="opacity-75 hover:opacity-100 transition-opacity text-3xl sm:text-4xl transform hover:scale-110">
-  <i class="fab fa-facebook"></i>
-</a>
-<a href="mailto:tasunthachathunika@gmail.com" aria-label="Email" class="opacity-75 hover:opacity-100 transition-opacity text-3xl sm:text-4xl transform hover:scale-110">
-  <i class="fas fa-envelope"></i>
-</a>
-
-                        <a href="tel:0750561571" class="opacity-75 hover:opacity-100 transition-opacity text-3xl sm:text-4xl transform hover:scale-110"><i class="fas fa-phone"></i></a>
+                <div class="mt-8 md:mt-10 text-center">
+                    <p class="text-base md:text-lg form-label mb-3 md:mb-4">Or find me on:</p>
+                    <div class="flex justify-center space-x-4 sm:space-x-5">
+                        <a  href="https://www.linkedin.com/in/tasuntha-chathunika"  target="_blank" class="opacity-75 hover:opacity-100 transition-opacity text-3xl sm:text-4xl transform hover:scale-110"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/Tasuntha-Chathunika" target="_blank" class="opacity-75 hover:opacity-100 transition-opacity text-3xl sm:text-4xl transform hover:scale-110"><i class="fab fa-github"></i></a>
+                        <a href="https://www.facebook.com/share/1Eq64hpb1T/" target="_blank" class="opacity-75 hover:opacity-100 transition-opacity text-3xl sm:text-4xl transform hover:scale-110"><i class="fab fa-facebook"></i></a>
+                        <a href="mailto:tasunthachathunika@gmail.com" class="opacity-75 hover:opacity-100 transition-opacity text-2xl sm:text-3xl transform hover:scale-110"><i class="fas fa-envelope"></i></a>
+                        <a href="tel:0750561571" class="opacity-75 hover:opacity-100 transition-opacity text-2xl sm:text-3xl transform hover:scale-110"><i class="fas fa-phone"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="text-center py-8 border-t border-[var(--card-border-dark)] dark:border-[var(--card-border-dark)]">
-        <p class="text-sm opacity-80">&copy; <span id="currentYear"></span> TASUNTHA CHATHUNIKA DAYASIRI. All rights reserved.</p>
-        <p class="text-xs mt-1 opacity-60">Designed with <i class="fas fa-heart text-red-500"></i> by Tasuntha  </p>
+    <footer class="text-center py-6 md:py-8 border-t border-[var(--card-border-dark)] dark:border-[var(--card-border-dark)]">
+        <p class="text-xs sm:text-sm opacity-80">&copy; <span id="currentYear"></span> TASUNTHA CHATHUNIKA DAYASIRI. All rights reserved.</p>
+        <p class="text-xs mt-1 opacity-60">Designed with <i class="fas fa-heart text-red-500"></i> by Tasuntha </p>
     </footer>
 
-    <button id="backToTopBtn" title="Go to top" class="hidden fixed bottom-5 right-5 sm:bottom-6 sm:right-6 p-2.5 sm:p-3 bg-[var(--accent-primary-dark)] dark:bg-[var(--accent-primary-dark)] text-white rounded-lg sm:rounded-full shadow-lg hover:brightness-110 focus:outline-none transition-all duration-300 z-30">
-        <i class="fas fa-arrow-up text-base sm:text-lg"></i>
+    <button id="backToTopBtn" title="Go to top" class="hidden fixed bottom-4 right-4 sm:bottom-5 sm:right-5 p-2 sm:p-2.5 bg-[var(--accent-primary-dark)] dark:bg-[var(--accent-primary-dark)] text-white rounded-md sm:rounded-lg shadow-lg hover:brightness-110 focus:outline-none transition-all duration-300 z-30">
+        <i class="fas fa-arrow-up text-sm sm:text-base"></i>
     </button>
 
     <script>
@@ -465,7 +549,7 @@
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
     const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-    let isDarkMode; // Will be set by check
+    let isDarkMode;
 
     function applyTheme(isDark) {
         if (isDark) {
@@ -482,8 +566,6 @@
             localStorage.setItem('theme', 'light');
         }
     }
-
-    // Initialize theme
     isDarkMode = localStorage.getItem('theme') === 'dark' ||
                  (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
     applyTheme(isDarkMode);
@@ -492,13 +574,11 @@
         themeToggleBtn.addEventListener('click', () => {
             isDarkMode = !isDarkMode;
             applyTheme(isDarkMode);
-            // Update Three.js particle colors on theme change
-            setTimeout(updateThreeJSParticleColors, 50); // Short delay for CSS vars
+            setTimeout(updateThreeJSParticleColors, 50);
         });
     }
 
-    // --- Mobile Nav ---
-    // (Script remains largely the same, ensure it works with new structure if any changes were made to nav HTML)
+    // --- Mobile Nav, Smooth Scroll, Active Nav, Footer Year, Back to Top ---
     const menuToggleBtn = document.querySelector('[data-collapse-toggle="navbar-sticky"]');
     const navbarSticky = document.getElementById('navbar-sticky');
     if (menuToggleBtn && navbarSticky) {
@@ -509,8 +589,6 @@
         });
     }
 
-    // --- Smooth Scroll & Active Nav ---
-    // (Script remains largely the same)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -531,10 +609,10 @@
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('#navbar-sticky ul li a.nav-link');
     window.addEventListener('scroll', () => {
-        let current = 'hero'; // Default to hero
+        let current = 'hero';
         const navbarHeight = document.querySelector('nav')?.offsetHeight || 70;
         sections.forEach(section => {
-            const sectionTop = section.offsetTop - navbarHeight - 100; // Increased offset for earlier activation
+            const sectionTop = section.offsetTop - navbarHeight - 100;
             if (pageYOffset >= sectionTop) {
                 current = section.getAttribute('id');
             }
@@ -556,12 +634,23 @@
             }
         }
     });
-    function setInitialActiveLink() { /* Same as before */ }
-    window.addEventListener('load', setInitialActiveLink);
+    function setInitialActiveLink() {
+        let current = 'hero';
+        const navbarHeight = document.querySelector('nav')?.offsetHeight || 70;
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - navbarHeight - 100;
+            if (pageYOffset >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href')?.substring(1) === current) {
+                link.classList.add('active');
+            }
+        });
+    }
 
-
-    // --- Footer Year & Back to Top ---
-    // (Scripts remain the same)
     const currentYearSpan = document.getElementById('currentYear');
     if (currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
     const backToTopBtn = document.getElementById('backToTopBtn');
@@ -569,142 +658,159 @@
         backToTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
     }
 
-
     // --- Three.js Enhanced Background Animation ---
-    let scene, camera, renderer, particles;
+    let scene, camera, renderer, particles, mouse;
+
     function initThreeJS() {
         const heroSection = document.getElementById('hero');
         const canvas = document.getElementById('hero-canvas');
         if (!heroSection || !canvas) { console.warn("Three.js: Hero or canvas not found."); return; }
 
+        mouse = new THREE.Vector2(0,0);
+
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(75, heroSection.offsetWidth / heroSection.offsetHeight, 0.1, 1000);
-        camera.position.z = 20; // Closer for a more immersive feel
+        camera.position.z = 15;
 
         renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
         renderer.setSize(heroSection.offsetWidth, heroSection.offsetHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // Particle system
-        const particleCount = 10000; // More particles for a denser field
+        const particleCount = 7000;
         const positions = new Float32Array(particleCount * 3);
         const colors = new Float32Array(particleCount * 3);
-        const sizes = new Float32Array(particleCount);
+        const alphas = new Float32Array(particleCount);
 
+        setParticleBaseColors(positions, colors, alphas, particleCount);
+
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('alpha', new THREE.BufferAttribute(alphas, 1));
+
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                pointTexture: { value: new THREE.TextureLoader().load('https://threejs.org/examples/textures/sprites/spark1.png') },
+                globalOpacityMultiplier: { value: isDarkMode ? 0.22 : 0.12 }
+            },
+            vertexShader: `
+                attribute float alpha; varying vec3 vColor; varying float vAlpha;
+                void main() {
+                    vColor = color; vAlpha = alpha; vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+                    gl_PointSize = ( 10.0 / -mvPosition.z ) * (1.0 + sin(position.x * 0.5 + position.y * 0.5) * 0.5);
+                    gl_Position = projectionMatrix * mvPosition;
+                }`,
+            fragmentShader: `
+                uniform sampler2D pointTexture; uniform float globalOpacityMultiplier; varying vec3 vColor; varying float vAlpha;
+                void main() {
+                    vec4 texColor = texture2D( pointTexture, gl_PointCoord );
+                    gl_FragColor = vec4( vColor * texColor.rgb, texColor.a * vAlpha * globalOpacityMultiplier );
+                }`,
+            blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, vertexColors: true
+        });
+
+        particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        heroSection.addEventListener('mousemove', onMouseMove, false);
+        window.addEventListener('resize', onWindowResizeThreeJS, false);
+        animateThreeJS();
+    }
+
+    function setParticleBaseColors(positions, colors, alphas, particleCount) {
         const baseColor1 = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue(isDarkMode ? '--accent-primary-dark' : '--accent-primary-light').trim());
         const baseColor2 = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue(isDarkMode ? '--accent-secondary-dark' : '--accent-secondary-light').trim());
 
         for (let i = 0; i < particleCount; i++) {
             const i3 = i * 3;
-            positions[i3] = (Math.random() - 0.5) * 100; // Spread them out
-            positions[i3 + 1] = (Math.random() - 0.5) * 100;
-            positions[i3 + 2] = (Math.random() - 0.5) * 100;
-
-            const color = Math.random() > 0.5 ? baseColor1.clone() : baseColor2.clone();
-            color.offsetHSL(0, (Math.random() - 0.5) * 0.3, (Math.random() - 0.5) * 0.3);
-            colors[i3] = color.r;
-            colors[i3 + 1] = color.g;
-            colors[i3 + 2] = color.b;
-            sizes[i] = Math.random() * 0.15 + 0.05; // Vary sizes
+            if (positions) {
+                const phi = Math.acos(-1 + (2 * i) / particleCount);
+                const theta = Math.sqrt(particleCount * Math.PI) * phi;
+                const radius = Math.random() * 30 + 10;
+                positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                positions[i3 + 2] = radius * Math.cos(phi) + (Math.random() - 0.5) * 10;
+            }
+            const color = Math.random() > 0.4 ? baseColor1.clone() : baseColor2.clone();
+            color.offsetHSL(0, (Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1);
+            colors[i3] = color.r; colors[i3 + 1] = color.g; colors[i3 + 2] = color.b;
+            if (alphas) alphas[i] = Math.random() * 0.5 + 0.2;
         }
-
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
-        const material = new THREE.ShaderMaterial({
-            uniforms: {
-                pointTexture: { value: new THREE.TextureLoader().load( 'https://threejs.org/examples/textures/sprites/disc.png' ) }, // Softer particle
-                globalOpacity: { value: isDarkMode ? 0.25 : 0.15 } // Control global opacity via uniform
-            },
-            vertexShader: `
-                attribute float size;
-                varying vec3 vColor;
-                void main() {
-                    vColor = color;
-                    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-                    gl_PointSize = size * ( 300.0 / -mvPosition.z );
-                    gl_Position = projectionMatrix * mvPosition;
-                }
-            `,
-            fragmentShader: `
-                uniform sampler2D pointTexture;
-                uniform float globalOpacity;
-                varying vec3 vColor;
-                void main() {
-                    gl_FragColor = vec4( vColor, globalOpacity ); // Use uniform for opacity
-                    gl_FragColor = gl_FragColor * texture2D( pointTexture, gl_PointCoord );
-                }
-            `,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-            transparent: true,
-            vertexColors: true
-        });
-
-        particles = new THREE.Points(geometry, material);
-        scene.add(particles);
-        window.addEventListener('resize', onWindowResizeThreeJS, false);
-        animateThreeJS();
     }
 
     function updateThreeJSParticleColors() {
         if (!particles || !particles.geometry) return;
-
         const colorsAttribute = particles.geometry.attributes.color;
-        const baseColor1 = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue(isDarkMode ? '--accent-primary-dark' : '--accent-primary-light').trim());
-        const baseColor2 = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue(isDarkMode ? '--accent-secondary-dark' : '--accent-secondary-light').trim());
-        
-        // Update global opacity uniform
-        if (particles.material.uniforms.globalOpacity) {
-            particles.material.uniforms.globalOpacity.value = isDarkMode ? 0.25 : 0.15;
-        }
-
-
-        for (let i = 0; i < colorsAttribute.count; i++) {
-            const color = Math.random() > 0.5 ? baseColor1.clone() : baseColor2.clone();
-            color.offsetHSL(0, (Math.random() - 0.5) * 0.3, (Math.random() - 0.5) * 0.3);
-            colorsAttribute.setXYZ(i, color.r, color.g, color.b);
-        }
+        const alphasAttribute = particles.geometry.attributes.alpha;
+        setParticleBaseColors(null, colorsAttribute.array, alphasAttribute.array, colorsAttribute.count);
         colorsAttribute.needsUpdate = true;
+        alphasAttribute.needsUpdate = true;
+        if (particles.material.uniforms.globalOpacityMultiplier) {
+            particles.material.uniforms.globalOpacityMultiplier.value = isDarkMode ? 0.22 : 0.12;
+        }
     }
+    
+    function onMouseMove(event) {
+        if (mouse) { // Check if mouse is initialized
+            const heroRect = heroSection.getBoundingClientRect(); // Get hero section bounds
+            mouse.x = ((event.clientX - heroRect.left) / heroRect.width) * 2 - 1;
+            mouse.y = -((event.clientY - heroRect.top) / heroRect.height) * 2 + 1;
+        }
+    }
+    
+    const heroSection = document.getElementById('hero'); // Define heroSection globally for onMouseMove
 
-
-    function onWindowResizeThreeJS() { /* Same as before */ }
-    let mouseX = 0, mouseY = 0;
-    const heroElement = document.getElementById('hero');
-    if (heroElement) { /* Same mouse move/leave logic */ }
+    function onWindowResizeThreeJS() {
+        if (camera && renderer && heroSection) {
+            camera.aspect = heroSection.offsetWidth / heroSection.offsetHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(heroSection.offsetWidth, heroSection.offsetHeight);
+        }
+    }
 
     function animateThreeJS() {
         if (!particles || !camera || !scene || !renderer) { requestAnimationFrame(animateThreeJS); return; }
         requestAnimationFrame(animateThreeJS);
-        const time = Date.now() * 0.00003; // Slower overall animation
+        const time = Date.now() * 0.00002;
+        particles.rotation.x = time * 0.05; // Slower rotation
+        particles.rotation.y = time * 0.025; // Even Slower Y rotation
 
-        particles.rotation.y = time * 0.1; // Gentle rotation
+        if (mouse && particles.geometry) {
+            const positions = particles.geometry.attributes.position.array;
+            const initialPositions = particles.geometry.userData.initialPositions; // Assuming you store initial positions
 
-        // Make particles drift subtly
-        const positions = particles.geometry.attributes.position.array;
-        for (let i = 0; i < positions.length; i += 3) {
-            positions[i+1] += Math.sin(time + positions[i]) * 0.001; // Gentle y-axis drift
+            for (let i = 0; i < positions.length; i += 3) {
+                // Mouse Repel Effect
+                let dx = positions[i] - mouse.x * 15; // Increased influence radius for mouse
+                let dy = positions[i+1] - mouse.y * 15;
+                let distSq = dx * dx + dy * dy;
+                let force = 0;
+
+                if (distSq < 100) { // Repel radius (10*10 = 100)
+                    force = (100 - distSq) / 100 * 0.02; // Repelling force
+                    positions[i] += dx / Math.sqrt(distSq) * force;
+                    positions[i+1] += dy / Math.sqrt(distSq) * force;
+                }
+
+                // Subtle independent movement (drift/swirl) - reduced intensity
+                positions[i] += Math.sin(time * 5 + positions[i+2] * 0.5) * 0.0002;
+                positions[i+1] += Math.cos(time * 5 + positions[i] * 0.5) * 0.0002;
+                positions[i+2] += (Math.random() - 0.5) * 0.0005; // Very subtle z-drift
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
         }
-        particles.geometry.attributes.position.needsUpdate = true;
-
-
-        camera.position.x += (mouseX * 3 - camera.position.x) * 0.02; // Slightly more mouse influence
-        camera.position.y += (mouseY * 3 - camera.position.y) * 0.02;
+        camera.position.x += (mouse.x * 1.0 - camera.position.x) * 0.015; // Reduced camera follow
+        camera.position.y += (mouse.y * 1.0 - camera.position.y) * 0.015;
         camera.lookAt(scene.position);
         renderer.render(scene, camera);
     }
     window.addEventListener('load', () => {
         initThreeJS();
-        setInitialActiveLink(); // Ensure this is called after content is loaded
+        setInitialActiveLink();
     });
 
-
     // --- Animate On Scroll ---
-    // (Script remains largely the same)
-    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 }; // Trigger a bit earlier
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
     const observerCallback = (entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -715,14 +821,13 @@
         });
     };
     const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
-    document.querySelectorAll('.glass-card, .section-heading, #about .profile-photo-container, .custom-btn').forEach(el => {
+    document.querySelectorAll('.glass-card, .project-card, .section-heading, #about .profile-photo-container, .custom-btn').forEach(el => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(30px) scale(0.97)'; // Adjusted start
-        el.style.filter = 'blur(4px)'; // Adjusted start
+        el.style.transform = 'translateY(30px) scale(0.97)';
+        el.style.filter = 'blur(4px)';
         el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out';
         scrollObserver.observe(el);
     });
-
     </script>
 </body>
 </html>

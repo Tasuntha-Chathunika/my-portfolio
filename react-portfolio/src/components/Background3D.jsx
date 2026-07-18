@@ -45,10 +45,18 @@ const Particles = () => {
     return geo;
   }, [positions, colors]);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (pointsRef.current) {
+      // Auto rotation
       pointsRef.current.rotation.x -= delta * 0.04;
       pointsRef.current.rotation.y -= delta * 0.06;
+      
+      // Mouse Parallax effect
+      const targetX = state.mouse.x * 0.25;
+      const targetY = state.mouse.y * 0.25;
+      
+      pointsRef.current.position.x += (targetX - pointsRef.current.position.x) * delta * 2;
+      pointsRef.current.position.y += (targetY - pointsRef.current.position.y) * delta * 2;
     }
   });
 

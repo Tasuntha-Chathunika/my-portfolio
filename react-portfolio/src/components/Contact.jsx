@@ -65,6 +65,7 @@ const Contact = () => {
     e.preventDefault();
     setStatus('sending');
     try {
+      // REPLACE YOUR_FORMSPREE_ID
       const res = await fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -74,6 +75,7 @@ const Contact = () => {
         setStatus('success');
         setFormState({ name: '', email: '', message: '' });
         showToast('success', 'Message sent! I\'ll get back to you soon. 🎉');
+        setTimeout(() => setStatus('idle'), 3000); // Reset button after 3s
       } else {
         throw new Error('Failed');
       }
@@ -196,11 +198,11 @@ const Contact = () => {
 
               {/* Right - Form */}
               <div className="flex-[1.3] p-8 md:p-12 relative">
-                {/* REPLACE YOUR_FORMSPREE_ID WITH YOUR ACTUAL FORMSPREE ID */}
-                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                  
                   {/* Name Field */}
                   <div className="group flex flex-col gap-1.5">
-                    <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-dark-muted group-focus-within:text-neon-cyan transition-colors">
+                    <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-dark-muted group-focus-within:text-neon-pink transition-colors">
                       Full Name
                     </label>
                     <div className="relative">
@@ -208,13 +210,13 @@ const Contact = () => {
                         type="text" id="name" name="name"
                         value={formState.name}
                         onChange={handleChange}
-                        className="w-full bg-dark-surface/50 border border-white/10 rounded-xl px-4 py-3.5 text-dark-text
-                          focus:outline-none focus:border-neon-cyan focus:ring-2 focus:ring-neon-cyan/20 transition-all placeholder-dark-muted/40"
+                        className="w-full bg-dark-bg/40 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3.5 text-dark-text
+                          focus:outline-none focus:border-neon-pink focus:ring-4 focus:ring-neon-purple/20 transition-all duration-300 placeholder-dark-muted/40"
                         placeholder="Tasuntha Chathunika"
                         required
                       />
                       {/* Animated underline */}
-                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-neon-cyan to-neon-blue scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
+                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-neon-pink to-neon-purple scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
                     </div>
                   </div>
 
@@ -228,8 +230,8 @@ const Contact = () => {
                         type="email" id="email" name="email"
                         value={formState.email}
                         onChange={handleChange}
-                        className="w-full bg-dark-surface/50 border border-white/10 rounded-xl px-4 py-3.5 text-dark-text
-                          focus:outline-none focus:border-neon-pink focus:ring-2 focus:ring-neon-pink/20 transition-all placeholder-dark-muted/40"
+                        className="w-full bg-dark-bg/40 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3.5 text-dark-text
+                          focus:outline-none focus:border-neon-pink focus:ring-4 focus:ring-neon-purple/20 transition-all duration-300 placeholder-dark-muted/40"
                         placeholder="you@example.com"
                         required
                       />
@@ -239,7 +241,7 @@ const Contact = () => {
 
                   {/* Message Field */}
                   <div className="group flex flex-col gap-1.5">
-                    <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-dark-muted group-focus-within:text-neon-purple transition-colors">
+                    <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-dark-muted group-focus-within:text-neon-pink transition-colors">
                       Message
                     </label>
                     <div className="relative">
@@ -247,12 +249,12 @@ const Contact = () => {
                         id="message" name="message" rows="4"
                         value={formState.message}
                         onChange={handleChange}
-                        className="w-full bg-dark-surface/50 border border-white/10 rounded-xl px-4 py-3.5 text-dark-text
-                          focus:outline-none focus:border-neon-purple focus:ring-2 focus:ring-neon-purple/20 transition-all resize-none placeholder-dark-muted/40"
+                        className="w-full bg-dark-bg/40 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3.5 text-dark-text
+                          focus:outline-none focus:border-neon-pink focus:ring-4 focus:ring-neon-purple/20 transition-all duration-300 resize-none placeholder-dark-muted/40"
                         placeholder="Tell me about your project..."
                         required
                       ></textarea>
-                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-neon-purple to-neon-pink scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
+                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-neon-pink to-neon-purple scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
                     </div>
                   </div>
 
@@ -260,22 +262,48 @@ const Contact = () => {
                   <button
                     type="submit"
                     disabled={status === 'sending'}
-                    className="mt-2 group relative w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl
+                    className="mt-2 group relative w-full h-14 flex items-center justify-center rounded-xl
                       font-bold text-lg text-white overflow-hidden
-                      bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-pink
-                      hover:shadow-xl hover:shadow-neon-purple/30 hover:-translate-y-0.5 transition-all duration-300 animated-gradient-bg
-                      disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                      bg-gradient-to-r from-neon-purple to-neon-pink
+                      hover:shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:-translate-y-0.5 transition-all duration-300 animated-gradient-bg
+                      disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
                   >
                     {/* Shine sweep on hover */}
-                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none"></span>
+                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none"></span>
 
-                    {status === 'sending' ? (
-                      <><Loader2 size={20} className="animate-spin" /> Sending...</>
-                    ) : status === 'success' ? (
-                      <><CheckCircle size={20} /> Message Sent!</>
-                    ) : (
-                      <><Send size={20} /> Send Message</>
-                    )}
+                    <AnimatePresence mode="wait">
+                      {status === 'sending' ? (
+                        <motion.div
+                          key="sending"
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -15 }}
+                          className="flex items-center gap-2 absolute"
+                        >
+                          <Loader2 size={20} className="animate-spin" /> Sending...
+                        </motion.div>
+                      ) : status === 'success' ? (
+                        <motion.div
+                          key="success"
+                          initial={{ opacity: 0, scale: 0.5 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.5 }}
+                          className="flex items-center gap-2 absolute"
+                        >
+                          <CheckCircle size={22} className="text-white drop-shadow-md" /> Sent Successfully!
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="idle"
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -15 }}
+                          className="flex items-center gap-2 absolute"
+                        >
+                          <Send size={20} /> Send Message
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </button>
                 </form>
               </div>

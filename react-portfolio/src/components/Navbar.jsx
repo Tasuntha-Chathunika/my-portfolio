@@ -37,7 +37,7 @@ const Navbar = ({ theme, toggleTheme }) => {
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
         ${scrolled
-          ? 'py-3 bg-dark-bg/80 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-neon-purple/5'
+          ? 'py-3 bg-dark-bg/30 backdrop-blur-md border-b border-white/10 shadow-lg shadow-neon-purple/10'
           : 'py-5 bg-transparent border-b border-transparent'
         }`}
     >
@@ -106,7 +106,7 @@ const Navbar = ({ theme, toggleTheme }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-dark-bg/95 backdrop-blur-xl border-b border-white/5 overflow-hidden"
+            className="md:hidden bg-dark-bg/60 backdrop-blur-lg border-b border-white/10 overflow-hidden"
           >
             <ul className="flex flex-col py-4 px-6 gap-4">
               {navLinks.map((link) => (

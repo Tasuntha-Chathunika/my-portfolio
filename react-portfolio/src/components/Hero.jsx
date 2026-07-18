@@ -36,7 +36,7 @@ const Hero = () => {
 
           {/* Title */}
           <motion.h1
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-display leading-[1.05] mb-8"
+            className="text-6xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black font-display leading-[1.1] mb-8 tracking-tight"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
@@ -45,7 +45,7 @@ const Hero = () => {
             <span className="gradient-text">Tasuntha Chathunika</span>
             <span className="text-neon-pink">.</span>
             <br />
-            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-dark-muted font-semibold">
+            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-dark-muted font-bold mt-4 inline-block">
               Software Engineer &amp; Web Developer.
             </span>
           </motion.h1>
@@ -72,7 +72,7 @@ const Hero = () => {
               href="#projects"
               className="group flex items-center gap-2.5 px-8 py-4 rounded-xl font-semibold text-white
                 bg-gradient-to-r from-neon-cyan to-neon-blue
-                hover:shadow-xl hover:shadow-neon-cyan/25 hover:-translate-y-0.5 transition-all duration-300"
+                hover:shadow-[0_0_25px_rgba(0,212,255,0.5)] hover:scale-105 hover:-translate-y-1 transition-all duration-300"
             >
               View Projects
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -80,7 +80,7 @@ const Hero = () => {
             <a
               href="#contact"
               className="group flex items-center gap-2.5 px-8 py-4 rounded-xl font-semibold
-                glass-card neon-border hover:border-neon-pink/50 hover:-translate-y-0.5 transition-all duration-300"
+                glass-card neon-border hover:border-neon-pink/50 hover:shadow-[0_0_25px_rgba(255,45,123,0.3)] hover:scale-105 hover:-translate-y-1 transition-all duration-300"
             >
               Contact Me
               <Mail size={18} />

@@ -77,11 +77,11 @@ const Education = () => {
                 </div>
 
                 {/* Card */}
-                <div className="flex-1 group glass-card p-6 md:p-8 overflow-hidden relative hover:-translate-y-1 transition-all duration-300"
+                <div className="flex-1 group glass-card p-6 md:p-8 overflow-hidden relative hover:-translate-y-2 transition-all duration-300"
                   style={{ '--accent': item.accentColor }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = item.accentColor + '40';
-                    e.currentTarget.style.boxShadow = `0 20px 40px ${item.accentColor}15, 0 0 0 1px ${item.accentColor}20`;
+                    e.currentTarget.style.borderColor = item.accentColor + '60';
+                    e.currentTarget.style.boxShadow = `0 20px 40px ${item.accentColor}30, 0 0 0 1px ${item.accentColor}30`;
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = '';

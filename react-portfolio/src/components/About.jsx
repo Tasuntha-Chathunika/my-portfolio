@@ -39,30 +39,35 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            {/* Outer animated gradient ring */}
-            <div className="absolute -inset-1 rounded-2xl opacity-70 blur-sm"
+            {/* Outer animated gradient ring (Glow) */}
+            <div className="absolute -inset-1 rounded-[1.3rem] opacity-40 blur-xl"
               style={{
                 background: 'linear-gradient(135deg, #a855f7, #ff2d7b, #00d4ff, #a855f7)',
                 backgroundSize: '300% 300%',
                 animation: 'border-rotate 4s ease infinite',
               }}
             ></div>
-            {/* Pulse glow behind image */}
-            <div
-              className="absolute -inset-4 rounded-2xl opacity-25 blur-2xl"
+            
+            {/* Animated Gradient Stroke (Border) */}
+            <div className="absolute -inset-[2px] rounded-[1.3rem] opacity-100"
               style={{
-                background: 'linear-gradient(135deg, #a855f7, #ff2d7b, #00d4ff)',
-                animation: 'pulse-glow 3s ease-in-out infinite',
+                background: 'linear-gradient(135deg, #a855f7, #ff2d7b, #00d4ff, #a855f7)',
+                backgroundSize: '300% 300%',
+                animation: 'border-rotate 4s ease infinite',
               }}
             ></div>
-            <div className="relative glass-card p-2.5 rounded-2xl overflow-hidden">
-              <img
-                src={profileImage}
-                alt="Tasuntha Chathunika Dayasiri"
-                className="w-full aspect-square object-cover rounded-xl group-hover:scale-105 transition-transform duration-700"
-              />
-              {/* Image overlay shimmer on hover */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-neon-purple/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl pointer-events-none"></div>
+
+            {/* Inner Content containing the image */}
+            <div className="relative bg-dark-bg p-2 rounded-2xl overflow-hidden z-10 h-full">
+              <div className="relative h-full w-full rounded-xl overflow-hidden">
+                <img
+                  src={profileImage}
+                  alt="Tasuntha Chathunika Dayasiri"
+                  className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                {/* Image overlay shimmer on hover */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-neon-purple/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+              </div>
             </div>
 
             {/* Stats Row below image */}
@@ -110,16 +115,20 @@ const About = () => {
               <p>
                 Hello! I'm{' '}
                 <strong className="text-dark-text font-semibold">Tasuntha Chathunika Dayasiri</strong>,
-                a highly motivated and results-oriented student at the University of Vavuniya,
-                pursuing a Bachelor of Information and Communication Technology (Hons).
-                My primary goal is to leverage my growing technical skills and creativity
+                a highly motivated and results-oriented student at the University of Vavuniya.
+              </p>
+              <p>
+                I am currently pursuing a Bachelor of Information and Communication Technology (Hons). 
+                My primary goal is to leverage my growing technical skills and creativity 
                 to contribute to impactful projects in the tech industry.
               </p>
               <p>
                 I have a strong foundation in modern web development (HTML, CSS, JavaScript, React, Tailwind CSS)
                 and backend systems (Node.js). I'm also enthusiastic about exploring creative coding with Three.js and p5.js.
-                My skillset extends to C, C++, C#, and Java, along with professional design and video editing tools
-                like Adobe Photoshop, Illustrator, Premiere Pro, and Figma.
+              </p>
+              <p>
+                Beyond web development, my skillset extends to C, C++, C#, and Java. I am equally passionate about creative design,
+                utilizing professional tools like Adobe Photoshop, Illustrator, Premiere Pro, and Figma to craft visually compelling experiences.
               </p>
             </div>
 

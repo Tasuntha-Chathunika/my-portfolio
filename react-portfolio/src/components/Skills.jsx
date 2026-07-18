@@ -1,0 +1,230 @@
+import { motion } from 'framer-motion';
+import {
+  FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs,
+  FaJava, FaFigma, FaPalette, FaCut,
+  FaAws
+} from 'react-icons/fa';
+import { SiTailwindcss, SiCplusplus, SiMysql, SiMongodb, SiPostgresql } from 'react-icons/si';
+import { TbBrandCSharp } from "react-icons/tb";
+import { BsCCircleFill } from "react-icons/bs";
+import { Code2, Brush, Cloud, Database } from 'lucide-react';
+
+const programmingSkills = [
+  { name: 'HTML5', icon: <FaHtml5 />, color: '#e34f26', mastery: 5 },
+  { name: 'CSS3', icon: <FaCss3Alt />, color: '#2965f1', mastery: 5 },
+  { name: 'JavaScript', icon: <FaJsSquare />, color: '#f7df1e', mastery: 4 },
+  { name: 'Tailwind', icon: <SiTailwindcss />, color: '#06b6d4', mastery: 5 },
+  { name: 'React', icon: <FaReact />, color: '#61dafb', mastery: 4 },
+  { name: 'Node.js', icon: <FaNodeJs />, color: '#68a063', mastery: 3 },
+  { name: 'C', icon: <BsCCircleFill />, color: '#555555', mastery: 4 },
+  { name: 'C++', icon: <SiCplusplus />, color: '#00599c', mastery: 3 },
+  { name: 'C#', icon: <TbBrandCSharp />, color: '#68217a', mastery: 3 },
+  { name: 'Java', icon: <FaJava />, color: '#ec2025', mastery: 3 },
+  { name: 'Three.js', icon: <span className="font-extrabold text-lg font-display">3D</span>, color: '#ffffff', mastery: 3 },
+  { name: 'p5.js', icon: <span className="font-extrabold text-lg font-display">p5</span>, color: '#ed225d', mastery: 3 },
+];
+
+const databaseSkills = [
+  { name: 'MySQL', icon: <SiMysql />, color: '#4479a1', mastery: 4 },
+  { name: 'MongoDB', icon: <SiMongodb />, color: '#47a248', mastery: 3 },
+  { name: 'PostgreSQL', icon: <SiPostgresql />, color: '#336791', mastery: 3 },
+];
+
+const cloudSkills = [
+  { name: 'AWS', icon: <FaAws />, color: '#ff9900', mastery: 2 },
+  { name: 'Azure', icon: <span className="font-extrabold text-sm font-display">Az</span>, color: '#0089d6', mastery: 2 },
+];
+
+const designSkills = [
+  { name: 'Photoshop', icon: <FaPalette />, color: '#31a8ff', mastery: 4 },
+  { name: 'Illustrator', icon: <FaPalette />, color: '#ff9a00', mastery: 4 },
+  { name: 'CapCut', icon: <FaCut />, color: '#ffffff', mastery: 4 },
+  { name: 'Figma', icon: <FaFigma />, color: '#f24e1e', mastery: 5 },
+];
+
+const MasteryDots = ({ mastery, color }) => (
+  <div className="flex gap-0.5">
+    {[1, 2, 3, 4, 5].map((dot) => (
+      <div
+        key={dot}
+        className="w-1.5 h-1.5 rounded-full transition-all duration-300"
+        style={{
+          backgroundColor: dot <= mastery ? color : 'rgba(255,255,255,0.12)',
+          boxShadow: dot <= mastery ? `0 0 4px ${color}80` : 'none',
+        }}
+      />
+    ))}
+  </div>
+);
+
+const SkillCard = ({ skill, index }) => (
+  <div className="skill-card-wrapper">
+    <motion.div
+      className="group relative glass-card p-5 flex flex-col items-center justify-center gap-3 cursor-default overflow-hidden hover:-translate-y-1.5 transition-all duration-300"
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.3, delay: index * 0.04 }}
+      style={{ '--icon-color': skill.color }}
+    >
+      {/* Hover glow background */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-15 transition-opacity duration-400 rounded-2xl"
+        style={{ backgroundColor: skill.color }}
+      ></div>
+
+      {/* Radial spotlight */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-2xl pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at center, ${skill.color}15 0%, transparent 70%)`,
+        }}
+      ></div>
+
+      {/* Icon */}
+      <div
+        className="text-3xl md:text-4xl transition-all duration-300 relative z-10 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow-lg"
+        style={{ color: skill.color }}
+      >
+        {skill.icon}
+      </div>
+
+      {/* Name */}
+      <span className="font-semibold text-xs text-dark-muted group-hover:text-dark-text transition-colors relative z-10">
+        {skill.name}
+      </span>
+
+      {/* Mastery Dots */}
+      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 relative z-10">
+        <MasteryDots mastery={skill.mastery} color={skill.color} />
+      </div>
+    </motion.div>
+  </div>
+);
+
+const SectionLabel = ({ icon, label, color, gradientClass }) => (
+  <div className="flex items-center gap-3 mb-6">
+    <div
+      className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold text-white bg-gradient-to-r ${gradientClass}`}
+      style={{ boxShadow: `0 0 16px ${color}40` }}
+    >
+      {icon}
+      {label}
+    </div>
+    <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent"></div>
+  </div>
+);
+
+const Skills = () => {
+  return (
+    <section id="skills" className="py-28 md:py-36 relative overflow-hidden">
+      {/* Decorative */}
+      <div className="absolute top-1/4 left-0 w-96 h-96 bg-neon-purple/10 rounded-full blur-[150px] pointer-events-none"></div>
+      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-neon-cyan/8 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="section-container relative z-10">
+        <motion.div
+          className="mb-16 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-extrabold font-display">
+            Technical <span className="gradient-text">Skills</span>
+          </h2>
+          <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-neon-pink to-neon-purple mx-auto"></div>
+          <p className="mt-4 text-dark-muted max-w-lg mx-auto text-sm md:text-base">
+            Hover over a card to see my mastery level. ✦
+          </p>
+        </motion.div>
+
+        <div className="flex flex-col gap-14">
+
+          {/* Development */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <SectionLabel
+              icon={<Code2 size={15} />}
+              label="Development"
+              color="#00d4ff"
+              gradientClass="from-neon-cyan to-neon-blue"
+            />
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+              {programmingSkills.map((skill, index) => (
+                <SkillCard key={skill.name} skill={skill} index={index} />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Database */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+          >
+            <SectionLabel
+              icon={<Database size={15} />}
+              label="Database"
+              color="#47a248"
+              gradientClass="from-[#47a248] to-[#336791]"
+            />
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+              {databaseSkills.map((skill, index) => (
+                <SkillCard key={skill.name} skill={skill} index={index} />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Cloud */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <SectionLabel
+              icon={<Cloud size={15} />}
+              label="Cloud"
+              color="#ff9900"
+              gradientClass="from-[#ff9900] to-[#0089d6]"
+            />
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+              {cloudSkills.map((skill, index) => (
+                <SkillCard key={skill.name} skill={skill} index={index} />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Design */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+          >
+            <SectionLabel
+              icon={<Brush size={15} />}
+              label="Design & Creative"
+              color="#ff2d7b"
+              gradientClass="from-neon-pink to-neon-purple"
+            />
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+              {designSkills.map((skill, index) => (
+                <SkillCard key={skill.name} skill={skill} index={index} />
+              ))}
+            </div>
+          </motion.div>
+
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Skills;

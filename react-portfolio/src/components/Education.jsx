@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { GraduationCap, Calendar, MapPin } from 'lucide-react';
+import Reveal from './Reveal';
 
 const educationData = [
   {
@@ -8,8 +9,8 @@ const educationData = [
     location: "Vavuniya, Sri Lanka",
     period: "2021 – Present",
     description: "Focusing on software engineering, web development, database management, and networking. Actively involved in practical projects and seeking to apply theoretical knowledge to real-world scenarios.",
-    color: 'from-neon-cyan to-neon-blue',
-    accentColor: '#00d4ff',
+    color: 'from-accent-3 to-accent-1',
+    accentColor: 'var(--theme-accent-3)',
     badge: 'Undergraduate',
   },
   {
@@ -18,8 +19,8 @@ const educationData = [
     location: "Katukurunda, Sri Lanka",
     period: "Completed",
     description: "Completed G.C.E. Advanced Level in the Physical Science stream and G.C.E. Ordinary Level with excellent results.",
-    color: 'from-neon-pink to-neon-purple',
-    accentColor: '#ff2d7b',
+    color: 'from-accent-2 to-accent-1',
+    accentColor: 'var(--theme-accent-2)',
     badge: 'Completed',
   }
 ];
@@ -28,30 +29,30 @@ const Education = () => {
   return (
     <section id="education" className="py-28 md:py-36 relative overflow-hidden">
       {/* Decorative Blobs */}
-      <div className="absolute top-1/2 right-0 w-80 h-80 bg-neon-blue/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2"></div>
-      <div className="absolute top-0 left-1/4 w-64 h-64 bg-neon-purple/8 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute top-1/2 right-0 w-80 h-80 bg-accent-1/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2"></div>
+      <div className="absolute top-0 left-1/4 w-64 h-64 bg-accent-1/8 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div className="section-container relative z-10">
-        <motion.div
-          className="mb-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-4xl md:text-5xl font-extrabold font-display">
-            My <span className="gradient-text">Education</span>
-          </h2>
-          <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-neon-cyan to-neon-blue mx-auto"></div>
-          <p className="mt-4 text-dark-muted max-w-xl mx-auto">
-            Building a strong foundation in technology and computer science.
-          </p>
-        </motion.div>
+        <div className="mb-16 flex flex-col items-center text-center">
+          <Reveal>
+            <h2 className="text-4xl md:text-5xl font-extrabold font-display">
+              My <span className="gradient-text">Education</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-accent-3 to-accent-1 mx-auto"></div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="mt-4 text-muted max-w-xl mx-auto">
+              Building a strong foundation in technology and computer science.
+            </p>
+          </Reveal>
+        </div>
 
         {/* Timeline */}
         <div className="max-w-3xl mx-auto relative">
           {/* Vertical line */}
-          <div className="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-neon-cyan/60 via-neon-purple/40 to-transparent pointer-events-none"></div>
+          <div className="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-accent-3/60 via-accent-1/40 to-transparent pointer-events-none"></div>
 
           <div className="flex flex-col gap-10">
             {educationData.map((item, index) => (
@@ -79,15 +80,11 @@ const Education = () => {
                 {/* Card */}
                 <div className="flex-1 group glass-card p-6 md:p-8 overflow-hidden relative hover:-translate-y-2 transition-all duration-300"
                   style={{ '--accent': item.accentColor }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = item.accentColor + '60';
-                    e.currentTarget.style.boxShadow = `0 20px 40px ${item.accentColor}30, 0 0 0 1px ${item.accentColor}30`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = '';
-                    e.currentTarget.style.boxShadow = '';
-                  }}
                 >
+                  {/* Hover effect container (Replaced inline JS with CSS hover for better support) */}
+                  <div className="absolute inset-0 border border-transparent group-hover:border-accent/60 transition-colors duration-300 rounded-2xl pointer-events-none z-20" style={{ borderColor: 'var(--accent)' }}></div>
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" style={{ boxShadow: `0 20px 40px ${item.accentColor}30, inset 0 0 0 1px ${item.accentColor}30` }}></div>
+
                   {/* Colorful top border */}
                   <div className={`absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r ${item.color}`}></div>
 
@@ -98,8 +95,8 @@ const Education = () => {
                   ></div>
 
                   {/* Header row */}
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 relative z-10">
-                    <h3 className="text-lg md:text-xl font-bold text-dark-text leading-snug pr-2">{item.degree}</h3>
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 relative z-30">
+                    <h3 className="text-lg md:text-xl font-bold text-text leading-snug pr-2">{item.degree}</h3>
                     {/* Shimmer badge */}
                     <span
                       className={`self-start sm:self-auto flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full text-white bg-gradient-to-r ${item.color}`}
@@ -115,13 +112,13 @@ const Education = () => {
                   </div>
 
                   {/* Institution + location */}
-                  <div className="flex items-center gap-2 mb-4 relative z-10">
+                  <div className="flex items-center gap-2 mb-4 relative z-30">
                     <MapPin size={13} style={{ color: item.accentColor }} />
                     <span className="text-sm font-semibold" style={{ color: item.accentColor }}>{item.institution}</span>
-                    <span className="text-dark-muted text-sm">— {item.location}</span>
+                    <span className="text-muted text-sm">— {item.location}</span>
                   </div>
 
-                  <p className="text-dark-muted leading-relaxed text-sm md:text-base relative z-10">{item.description}</p>
+                  <p className="text-muted leading-relaxed text-sm md:text-base relative z-30">{item.description}</p>
                 </div>
               </motion.div>
             ))}

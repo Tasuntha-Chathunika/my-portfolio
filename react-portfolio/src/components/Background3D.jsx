@@ -2,16 +2,25 @@ import { useRef, useMemo, Suspense, Component } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-function generateStarPositions(count) {
+function generateStarPositions(count, theme) {
   const positions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
   
-  const colorPalette = [
+  const darkPalette = [
     [0.66, 0.33, 0.97],  // neon purple
     [1.0, 0.18, 0.48],   // neon pink
     [0.0, 0.83, 1.0],    // neon cyan
     [0.31, 0.27, 0.90],  // neon blue
   ];
+
+  const lightPalette = [
+    [0.39, 0.4, 0.95],   // deeper indigo
+    [0.93, 0.28, 0.6],   // deeper pink
+    [0.05, 0.65, 0.91],  // deeper sky blue
+    [0.55, 0.35, 0.8],   // soft violet
+  ];
+
+  const colorPalette = theme === 'light' ? lightPalette : darkPalette;
 
   for (let i = 0; i < count; i++) {
     let x, y, z;
@@ -33,9 +42,9 @@ function generateStarPositions(count) {
   return { positions, colors };
 }
 
-const Particles = () => {
+const Particles = ({ theme }) => {
   const pointsRef = useRef();
-  const { positions, colors } = useMemo(() => generateStarPositions(3000), []);
+  const { positions, colors } = useMemo(() => generateStarPositions(3000, theme), [theme]);
 
   const geometry = useMemo(() => {
     const geo = new THREE.BufferGeometry();
@@ -66,7 +75,7 @@ const Particles = () => {
         size={0.006}
         sizeAttenuation
         transparent
-        opacity={0.85}
+        opacity={theme === 'light' ? 0.9 : 0.85}
         depthWrite={false}
         vertexColors
       />
@@ -88,7 +97,7 @@ class WebGLErrorBoundary extends Component {
   }
 }
 
-const Background3D = () => {
+const Background3D = ({ theme }) => {
   return (
     <WebGLErrorBoundary>
       <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
@@ -100,7 +109,7 @@ const Background3D = () => {
             dpr={[0.5, 1.5]}
             frameloop="always"
           >
-            <Particles />
+            <Particles theme={theme} />
           </Canvas>
         </Suspense>
       </div>

@@ -37,14 +37,14 @@ const Navbar = ({ theme, toggleTheme }) => {
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
         ${scrolled
-          ? 'py-3 bg-dark-bg/30 backdrop-blur-md border-b border-white/10 shadow-lg shadow-neon-purple/10'
+          ? 'py-3 bg-bg/30 backdrop-blur-md border-b border-border shadow-lg shadow-accent-1/10'
           : 'py-5 bg-transparent border-b border-transparent'
         }`}
     >
       <div className="section-container flex items-center justify-between">
         {/* Logo */}
         <a href="#hero" className="font-display font-extrabold text-2xl tracking-tight">
-          Tasuntha<span className="text-neon-pink">.</span>
+          Tasuntha<span className="text-accent-2">.</span>
         </a>
 
         {/* Desktop Nav */}
@@ -56,14 +56,14 @@ const Navbar = ({ theme, toggleTheme }) => {
                   href={link.href}
                   className={`text-sm font-medium transition-all duration-200 relative
                     ${activeSection === link.href.substring(1)
-                      ? 'text-neon-cyan'
-                      : 'text-dark-muted hover:text-dark-text'}`}
+                      ? 'text-accent-3'
+                      : 'text-muted hover:text-text'}`}
                 >
                   {link.name}
                   {activeSection === link.href.substring(1) && (
                     <motion.span
                       layoutId="activeNav"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-neon-cyan rounded-full"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent-3 rounded-full"
                     />
                   )}
                 </a>
@@ -73,7 +73,7 @@ const Navbar = ({ theme, toggleTheme }) => {
           <div className="flex items-center gap-3">
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl bg-dark-surface/50 border border-white/5 hover:border-neon-purple/30 transition-all"
+              className="p-2.5 rounded-xl bg-surface/50 border border-border hover:border-accent-1/30 transition-all text-text"
               aria-label="Toggle Theme"
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
@@ -81,8 +81,8 @@ const Navbar = ({ theme, toggleTheme }) => {
             <a
               href="#contact"
               className="px-5 py-2.5 rounded-xl font-semibold text-sm text-white
-                bg-gradient-to-r from-neon-purple to-neon-pink
-                hover:shadow-lg hover:shadow-neon-pink/25 transition-all duration-300 animated-gradient-bg"
+                bg-gradient-to-r from-accent-1 to-accent-2
+                hover:shadow-lg hover:shadow-accent-2/25 transition-all duration-300 animated-gradient-bg"
             >
               Hire Me
             </a>
@@ -91,10 +91,10 @@ const Navbar = ({ theme, toggleTheme }) => {
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-2">
-          <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-white/5 transition-colors">
+          <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-surface/50 transition-colors text-text border border-transparent hover:border-border">
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
-          <button onClick={() => setIsOpen(!isOpen)} className="p-2 rounded-lg hover:bg-white/5 transition-colors">
+          <button onClick={() => setIsOpen(!isOpen)} className="p-2 rounded-lg hover:bg-surface/50 transition-colors text-text">
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -106,7 +106,7 @@ const Navbar = ({ theme, toggleTheme }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-dark-bg/60 backdrop-blur-lg border-b border-white/10 overflow-hidden"
+            className="md:hidden bg-bg/90 backdrop-blur-lg border-b border-border overflow-hidden"
           >
             <ul className="flex flex-col py-4 px-6 gap-4">
               {navLinks.map((link) => (
@@ -115,7 +115,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                     href={link.href}
                     onClick={() => setIsOpen(false)}
                     className={`block text-base font-medium transition-colors
-                      ${activeSection === link.href.substring(1) ? 'text-neon-cyan' : 'text-dark-muted'}`}
+                      ${activeSection === link.href.substring(1) ? 'text-accent-3' : 'text-muted'}`}
                   >
                     {link.name}
                   </a>

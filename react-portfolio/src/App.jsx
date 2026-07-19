@@ -8,12 +8,28 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Background3D from './components/Background3D';
+import Preloader from './components/Preloader';
+import Lenis from 'lenis';
 import './index.css';
 
 function App() {
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
+    // Initialize Lenis for smooth scroll transitions
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Apple-like easing
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Theme setup
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (savedTheme) {
@@ -26,6 +42,8 @@ function App() {
       setTheme('light');
       document.documentElement.setAttribute('data-theme', 'light');
     }
+    
+    return () => lenis.destroy();
   }, []);
 
   const toggleTheme = () => {
@@ -37,7 +55,8 @@ function App() {
 
   return (
     <div className="relative min-h-screen">
-      <Background3D />
+      <Preloader />
+      <Background3D theme={theme} />
       <Navbar theme={theme} toggleTheme={toggleTheme} />
       <main className="relative z-10">
         <Hero />

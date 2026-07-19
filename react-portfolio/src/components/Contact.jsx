@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Mail, Phone, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { FaLinkedin, FaGithub, FaFacebook, FaInstagram } from 'react-icons/fa';
+import Reveal from './Reveal';
 
 const socialLinks = [
   { icon: <FaLinkedin size={20} />, href: 'https://www.linkedin.com/in/tasuntha-chathunika', color: '#0077b5', label: 'LinkedIn' },
-  { icon: <FaGithub size={20} />, href: 'https://github.com/Tasuntha-Chathunika', color: '#e6e6e6', label: 'GitHub' },
+  { icon: <FaGithub size={20} />, href: 'https://github.com/Tasuntha-Chathunika', color: 'var(--theme-text)', label: 'GitHub' },
   { icon: <FaFacebook size={20} />, href: 'https://www.facebook.com/share/1Eq64hpb1T/', color: '#1877f2', label: 'Facebook' },
   { icon: <FaInstagram size={20} />, href: 'https://www.instagram.com/YOUR_INSTAGRAM_USERNAME', color: '#e1306c', label: 'Instagram' },
-  { icon: <Mail size={20} />, href: 'mailto:tasunthachathunika@gmail.com', color: '#ec4899', label: 'Email' },
-  { icon: <Phone size={20} />, href: 'tel:0750561571', color: '#a855f7', label: 'Phone' },
+  { icon: <Mail size={20} />, href: 'mailto:tasunthachathunika@gmail.com', color: 'var(--theme-accent-2)', label: 'Email' },
+  { icon: <Phone size={20} />, href: 'tel:0750561571', color: 'var(--theme-accent-1)', label: 'Phone' },
 ];
 
 const contactInfo = [
@@ -18,14 +19,14 @@ const contactInfo = [
     label: 'Email',
     value: 'tasunthachathunika@gmail.com',
     href: 'mailto:tasunthachathunika@gmail.com',
-    color: '#ec4899',
+    color: 'var(--theme-accent-2)',
   },
   {
     icon: <Phone size={18} />,
     label: 'Phone',
     value: '+94 75 056 1571',
     href: 'tel:0750561571',
-    color: '#a855f7',
+    color: 'var(--theme-accent-1)',
   },
 ];
 
@@ -36,14 +37,14 @@ const Toast = ({ type, message, onClose }) => (
     exit={{ opacity: 0, y: -20, scale: 0.9 }}
     transition={{ duration: 0.3 }}
     className={`fixed top-6 right-6 z-[100] flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-2xl glass-card border
-      ${type === 'success' ? 'border-neon-green/30' : 'border-neon-pink/30'}`}
+      ${type === 'success' ? 'border-green-500/30' : 'border-red-500/30'}`}
   >
     {type === 'success'
-      ? <CheckCircle size={20} className="text-neon-green flex-shrink-0" />
-      : <XCircle size={20} className="text-neon-pink flex-shrink-0" />
+      ? <CheckCircle size={20} className="text-green-500 flex-shrink-0" />
+      : <XCircle size={20} className="text-red-500 flex-shrink-0" />
     }
-    <span className="text-sm font-medium">{message}</span>
-    <button onClick={onClose} className="ml-2 text-dark-muted hover:text-dark-text text-lg leading-none">&times;</button>
+    <span className="text-sm font-medium text-text">{message}</span>
+    <button onClick={onClose} className="ml-2 text-muted hover:text-text text-lg leading-none">&times;</button>
   </motion.div>
 );
 
@@ -89,8 +90,8 @@ const Contact = () => {
   return (
     <section id="contact" className="py-28 md:py-36 relative overflow-hidden">
       {/* Glows */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-neon-cyan/10 rounded-full blur-[150px] pointer-events-none -translate-y-1/2"></div>
-      <div className="absolute bottom-0 right-0 w-80 h-80 bg-neon-pink/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-accent-3/10 rounded-full blur-[150px] pointer-events-none -translate-y-1/2"></div>
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-accent-2/10 rounded-full blur-[120px] pointer-events-none"></div>
 
       {/* Toast Notification */}
       <AnimatePresence>
@@ -100,21 +101,21 @@ const Contact = () => {
       </AnimatePresence>
 
       <div className="section-container relative z-10">
-        <motion.div
-          className="mb-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-4xl md:text-5xl font-extrabold font-display">
-            Get In <span className="gradient-text">Touch</span>
-          </h2>
-          <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-neon-pink to-neon-cyan mx-auto"></div>
-          <p className="mt-4 text-dark-muted max-w-lg mx-auto text-sm md:text-base">
-            Have a project or just want to say hi? My inbox is always open.
-          </p>
-        </motion.div>
+        <div className="mb-16 flex flex-col items-center text-center">
+          <Reveal>
+            <h2 className="text-4xl md:text-5xl font-extrabold font-display">
+              Get In <span className="gradient-text">Touch</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-accent-2 to-accent-3 mx-auto"></div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="mt-4 text-muted max-w-lg mx-auto text-sm md:text-base">
+              Have a project or just want to say hi? My inbox is always open.
+            </p>
+          </Reveal>
+        </div>
 
         <div className="max-w-5xl mx-auto">
           <motion.div
@@ -126,13 +127,13 @@ const Contact = () => {
           >
             <div className="flex flex-col md:flex-row">
               {/* Left - Info */}
-              <div className="flex-1 p-8 md:p-12 bg-dark-surface/30 border-b md:border-b-0 md:border-r border-white/5 relative">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-neon-purple/10 rounded-full blur-[80px] pointer-events-none"></div>
+              <div className="flex-1 p-8 md:p-12 bg-card/30 border-b md:border-b-0 md:border-r border-border relative">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-accent-1/10 rounded-full blur-[80px] pointer-events-none"></div>
 
-                <h3 className="text-2xl md:text-3xl font-bold mb-3 relative z-10">
+                <h3 className="text-2xl md:text-3xl font-bold mb-3 relative z-10 text-text">
                   Let's build something <span className="gradient-text">together.</span>
                 </h3>
-                <p className="text-dark-muted text-sm md:text-base leading-relaxed mb-8 relative z-10">
+                <p className="text-muted text-sm md:text-base leading-relaxed mb-8 relative z-10">
                   Have a project, an idea, or just want to chat? Fill out the form or connect through my channels.
                 </p>
 
@@ -143,23 +144,16 @@ const Contact = () => {
                       key={info.label}
                       href={info.href}
                       className="group flex items-center gap-3 p-3.5 rounded-xl glass-card hover:-translate-x-1 transition-all duration-300"
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = info.color + '40';
-                        e.currentTarget.style.boxShadow = `0 0 14px ${info.color}20`;
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = '';
-                        e.currentTarget.style.boxShadow = '';
-                      }}
                     >
-                      <span className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
-                        style={{ backgroundColor: info.color + '20', color: info.color }}
+                      <span className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center relative overflow-hidden"
+                        style={{ color: info.color }}
                       >
+                         <span className="absolute inset-0 opacity-20" style={{ backgroundColor: info.color }}></span>
                         {info.icon}
                       </span>
                       <div>
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-dark-muted">{info.label}</div>
-                        <div className="text-sm font-medium text-dark-text group-hover:text-white transition-colors">{info.value}</div>
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-muted">{info.label}</div>
+                        <div className="text-sm font-medium text-text group-hover:text-accent-3 transition-colors">{info.value}</div>
                       </div>
                     </a>
                   ))}
@@ -167,7 +161,7 @@ const Contact = () => {
 
                 {/* Social links with hover labels */}
                 <div className="relative z-10">
-                  <p className="text-xs text-dark-muted font-semibold uppercase tracking-widest mb-3">Connect</p>
+                  <p className="text-xs text-muted font-semibold uppercase tracking-widest mb-3">Connect</p>
                   <div className="flex flex-wrap gap-2">
                     {socialLinks.map((social) => (
                       <a
@@ -175,21 +169,12 @@ const Contact = () => {
                         href={social.href}
                         target="_blank"
                         rel="noreferrer"
-                        className="group relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl glass-card text-dark-muted
-                          hover:-translate-y-1 transition-all duration-300 text-sm font-medium overflow-hidden"
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.color = social.color;
-                          e.currentTarget.style.borderColor = social.color + '40';
-                          e.currentTarget.style.boxShadow = `0 0 16px ${social.color}25`;
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.color = '';
-                          e.currentTarget.style.borderColor = '';
-                          e.currentTarget.style.boxShadow = '';
-                        }}
+                        className="group relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl glass-card text-muted
+                          hover:-translate-y-1 transition-all duration-300 text-sm font-medium overflow-hidden hover:border-border"
                       >
-                        {social.icon}
-                        <span className="text-xs">{social.label}</span>
+                         <span className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300" style={{ backgroundColor: social.color }}></span>
+                         <span className="relative z-10" style={{ color: social.color }}>{social.icon}</span>
+                        <span className="text-xs group-hover:text-text transition-colors relative z-10">{social.label}</span>
                       </a>
                     ))}
                   </div>
@@ -202,7 +187,7 @@ const Contact = () => {
                   
                   {/* Name Field */}
                   <div className="group flex flex-col gap-1.5">
-                    <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-dark-muted group-focus-within:text-neon-pink transition-colors">
+                    <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-muted group-focus-within:text-accent-2 transition-colors">
                       Full Name
                     </label>
                     <div className="relative">
@@ -210,19 +195,19 @@ const Contact = () => {
                         type="text" id="name" name="name"
                         value={formState.name}
                         onChange={handleChange}
-                        className="w-full bg-dark-bg/40 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3.5 text-dark-text
-                          focus:outline-none focus:border-neon-pink focus:ring-4 focus:ring-neon-purple/20 transition-all duration-300 placeholder-dark-muted/40"
+                        className="w-full bg-bg/40 backdrop-blur-md border border-border rounded-xl px-4 py-3.5 text-text
+                          focus:outline-none focus:border-accent-2 focus:ring-4 focus:ring-accent-1/20 transition-all duration-300 placeholder-muted/40"
                         placeholder="Tasuntha Chathunika"
                         required
                       />
                       {/* Animated underline */}
-                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-neon-pink to-neon-purple scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
+                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-accent-2 to-accent-1 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
                     </div>
                   </div>
 
                   {/* Email Field */}
                   <div className="group flex flex-col gap-1.5">
-                    <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-dark-muted group-focus-within:text-neon-pink transition-colors">
+                    <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-muted group-focus-within:text-accent-2 transition-colors">
                       Email Address
                     </label>
                     <div className="relative">
@@ -230,18 +215,18 @@ const Contact = () => {
                         type="email" id="email" name="email"
                         value={formState.email}
                         onChange={handleChange}
-                        className="w-full bg-dark-bg/40 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3.5 text-dark-text
-                          focus:outline-none focus:border-neon-pink focus:ring-4 focus:ring-neon-purple/20 transition-all duration-300 placeholder-dark-muted/40"
+                        className="w-full bg-bg/40 backdrop-blur-md border border-border rounded-xl px-4 py-3.5 text-text
+                          focus:outline-none focus:border-accent-2 focus:ring-4 focus:ring-accent-1/20 transition-all duration-300 placeholder-muted/40"
                         placeholder="you@example.com"
                         required
                       />
-                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-neon-pink to-neon-purple scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
+                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-accent-2 to-accent-1 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
                     </div>
                   </div>
 
                   {/* Message Field */}
                   <div className="group flex flex-col gap-1.5">
-                    <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-dark-muted group-focus-within:text-neon-pink transition-colors">
+                    <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-muted group-focus-within:text-accent-2 transition-colors">
                       Message
                     </label>
                     <div className="relative">
@@ -249,12 +234,12 @@ const Contact = () => {
                         id="message" name="message" rows="4"
                         value={formState.message}
                         onChange={handleChange}
-                        className="w-full bg-dark-bg/40 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3.5 text-dark-text
-                          focus:outline-none focus:border-neon-pink focus:ring-4 focus:ring-neon-purple/20 transition-all duration-300 resize-none placeholder-dark-muted/40"
+                        className="w-full bg-bg/40 backdrop-blur-md border border-border rounded-xl px-4 py-3.5 text-text
+                          focus:outline-none focus:border-accent-2 focus:ring-4 focus:ring-accent-1/20 transition-all duration-300 resize-none placeholder-muted/40"
                         placeholder="Tell me about your project..."
                         required
                       ></textarea>
-                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-neon-pink to-neon-purple scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
+                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-accent-2 to-accent-1 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
                     </div>
                   </div>
 
@@ -264,8 +249,8 @@ const Contact = () => {
                     disabled={status === 'sending'}
                     className="mt-2 group relative w-full h-14 flex items-center justify-center rounded-xl
                       font-bold text-lg text-white overflow-hidden
-                      bg-gradient-to-r from-neon-purple to-neon-pink
-                      hover:shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:-translate-y-0.5 transition-all duration-300 animated-gradient-bg
+                      bg-gradient-to-r from-accent-1 to-accent-2
+                      hover:shadow-lg hover:shadow-accent-2/30 hover:-translate-y-0.5 transition-all duration-300 animated-gradient-bg
                       disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
                   >
                     {/* Shine sweep on hover */}

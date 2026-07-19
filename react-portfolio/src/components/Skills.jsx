@@ -8,6 +8,7 @@ import { SiTailwindcss, SiCplusplus, SiMysql, SiMongodb, SiPostgresql } from 're
 import { TbBrandCSharp } from "react-icons/tb";
 import { BsCCircleFill } from "react-icons/bs";
 import { Code2, Brush, Cloud, Database } from 'lucide-react';
+import Reveal from './Reveal';
 
 const programmingSkills = [
   { name: 'HTML5', icon: <FaHtml5 />, color: '#e34f26', mastery: 5 },
@@ -20,7 +21,7 @@ const programmingSkills = [
   { name: 'C++', icon: <SiCplusplus />, color: '#00599c', mastery: 3 },
   { name: 'C#', icon: <TbBrandCSharp />, color: '#68217a', mastery: 3 },
   { name: 'Java', icon: <FaJava />, color: '#ec2025', mastery: 3 },
-  { name: 'Three.js', icon: <span className="font-extrabold text-lg font-display">3D</span>, color: '#ffffff', mastery: 3 },
+  { name: 'Three.js', icon: <span className="font-extrabold text-lg font-display">3D</span>, color: 'var(--theme-text)', mastery: 3 },
   { name: 'p5.js', icon: <span className="font-extrabold text-lg font-display">p5</span>, color: '#ed225d', mastery: 3 },
 ];
 
@@ -38,7 +39,7 @@ const cloudSkills = [
 const designSkills = [
   { name: 'Photoshop', icon: <FaPalette />, color: '#31a8ff', mastery: 4 },
   { name: 'Illustrator', icon: <FaPalette />, color: '#ff9a00', mastery: 4 },
-  { name: 'CapCut', icon: <FaCut />, color: '#ffffff', mastery: 4 },
+  { name: 'CapCut', icon: <FaCut />, color: 'var(--theme-text)', mastery: 4 },
   { name: 'Figma', icon: <FaFigma />, color: '#f24e1e', mastery: 5 },
 ];
 
@@ -49,7 +50,7 @@ const MasteryDots = ({ mastery, color }) => (
         key={dot}
         className="w-1.5 h-1.5 rounded-full transition-all duration-300"
         style={{
-          backgroundColor: dot <= mastery ? color : 'rgba(255,255,255,0.12)',
+          backgroundColor: dot <= mastery ? color : 'var(--theme-border)',
           boxShadow: dot <= mastery ? `0 0 4px ${color}80` : 'none',
         }}
       />
@@ -90,7 +91,7 @@ const SkillCard = ({ skill, index }) => (
       </div>
 
       {/* Name */}
-      <span className="font-semibold text-xs text-dark-muted group-hover:text-dark-text transition-colors relative z-10">
+      <span className="font-semibold text-xs text-muted group-hover:text-text transition-colors relative z-10">
         {skill.name}
       </span>
 
@@ -111,7 +112,7 @@ const SectionLabel = ({ icon, label, color, gradientClass }) => (
       {icon}
       {label}
     </div>
-    <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent"></div>
+    <div className="flex-1 h-px bg-gradient-to-r from-accent-1/20 to-transparent"></div>
   </div>
 );
 
@@ -119,25 +120,25 @@ const Skills = () => {
   return (
     <section id="skills" className="py-28 md:py-36 relative overflow-hidden">
       {/* Decorative */}
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-neon-purple/10 rounded-full blur-[150px] pointer-events-none"></div>
-      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-neon-cyan/8 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent-1/10 rounded-full blur-[150px] pointer-events-none"></div>
+      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-accent-3/8 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="section-container relative z-10">
-        <motion.div
-          className="mb-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-4xl md:text-5xl font-extrabold font-display">
-            Technical <span className="gradient-text">Skills</span>
-          </h2>
-          <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-neon-pink to-neon-purple mx-auto"></div>
-          <p className="mt-4 text-dark-muted max-w-lg mx-auto text-sm md:text-base">
-            Hover over a card to see my mastery level. ✦
-          </p>
-        </motion.div>
+        <div className="mb-16 flex flex-col items-center text-center">
+          <Reveal>
+            <h2 className="text-4xl md:text-5xl font-extrabold font-display">
+              Technical <span className="gradient-text">Skills</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-accent-2 to-accent-1 mx-auto"></div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="mt-4 text-muted max-w-lg mx-auto text-sm md:text-base">
+              Hover over a card to see my mastery level. ✦
+            </p>
+          </Reveal>
+        </div>
 
         <div className="flex flex-col gap-14">
 
@@ -151,8 +152,8 @@ const Skills = () => {
             <SectionLabel
               icon={<Code2 size={15} />}
               label="Development"
-              color="#00d4ff"
-              gradientClass="from-neon-cyan to-neon-blue"
+              color="var(--theme-accent-3)"
+              gradientClass="from-accent-3 to-accent-1"
             />
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
               {programmingSkills.map((skill, index) => (
@@ -211,8 +212,8 @@ const Skills = () => {
             <SectionLabel
               icon={<Brush size={15} />}
               label="Design & Creative"
-              color="#ff2d7b"
-              gradientClass="from-neon-pink to-neon-purple"
+              color="var(--theme-accent-2)"
+              gradientClass="from-accent-2 to-accent-1"
             />
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
               {designSkills.map((skill, index) => (

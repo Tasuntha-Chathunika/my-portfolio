@@ -1,19 +1,37 @@
+import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Code2, Layers, BookOpen } from 'lucide-react';
 import profileImage from '../assets/IMG_20240613_205017.jpg';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 const stats = [
-  { icon: <Code2 size={20} />, value: '3+', label: 'Years Coding', color: '#00d4ff' },
-  { icon: <Layers size={20} />, value: '10+', label: 'Projects Built', color: '#a855f7' },
-  { icon: <BookOpen size={20} />, value: 'BICT', label: 'Hons Student', color: '#ff2d7b' },
+  { icon: <Code2 size={20} />, value: '3+', label: 'Years Coding', color: 'var(--theme-accent-3)' },
+  { icon: <Layers size={20} />, value: '10+', label: 'Projects Built', color: 'var(--theme-accent-1)' },
+  { icon: <BookOpen size={20} />, value: 'BICT (Hons)', label: 'Undergraduate', color: 'var(--theme-accent-2)' },
 ];
 
 const About = () => {
+  const aboutRef = useRef(null);
+
+  useGSAP(() => {
+    gsap.to('.about-image-container', {
+      y: -50,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: aboutRef.current,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true,
+      }
+    });
+  }, { scope: aboutRef });
+
   return (
-    <section id="about" className="py-28 md:py-36 relative overflow-hidden">
+    <section ref={aboutRef} id="about" className="py-28 md:py-36 relative overflow-hidden">
       {/* Decorative blobs */}
-      <div className="absolute top-1/3 left-0 w-96 h-96 bg-neon-purple/10 rounded-full blur-[150px] pointer-events-none"></div>
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-neon-cyan/8 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/3 left-0 w-96 h-96 bg-accent-1/10 rounded-full blur-[150px] pointer-events-none"></div>
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-accent-3/8 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="section-container relative z-10">
         {/* Section Heading */}
@@ -27,13 +45,13 @@ const About = () => {
           <h2 className="text-4xl md:text-5xl font-extrabold font-display">
             About <span className="gradient-text">Me</span>
           </h2>
-          <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-neon-purple to-neon-pink"></div>
+          <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-accent-1 to-accent-2"></div>
         </motion.div>
 
         <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
           {/* Image + Stats */}
           <motion.div
-            className="w-full max-w-xs lg:max-w-sm relative group flex-shrink-0"
+            className="about-image-container w-full max-w-xs lg:max-w-sm relative group flex-shrink-0"
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -42,7 +60,7 @@ const About = () => {
             {/* Outer animated gradient ring (Glow) */}
             <div className="absolute -inset-1 rounded-[1.3rem] opacity-40 blur-xl"
               style={{
-                background: 'linear-gradient(135deg, #a855f7, #ff2d7b, #00d4ff, #a855f7)',
+                background: 'linear-gradient(135deg, var(--theme-accent-1), var(--theme-accent-2), var(--theme-accent-3), var(--theme-accent-1))',
                 backgroundSize: '300% 300%',
                 animation: 'border-rotate 4s ease infinite',
               }}
@@ -51,14 +69,14 @@ const About = () => {
             {/* Animated Gradient Stroke (Border) */}
             <div className="absolute -inset-[2px] rounded-[1.3rem] opacity-100"
               style={{
-                background: 'linear-gradient(135deg, #a855f7, #ff2d7b, #00d4ff, #a855f7)',
+                background: 'linear-gradient(135deg, var(--theme-accent-1), var(--theme-accent-2), var(--theme-accent-3), var(--theme-accent-1))',
                 backgroundSize: '300% 300%',
                 animation: 'border-rotate 4s ease infinite',
               }}
             ></div>
 
             {/* Inner Content containing the image */}
-            <div className="relative bg-dark-bg p-2 rounded-2xl overflow-hidden z-10 h-full">
+            <div className="relative bg-bg p-2 rounded-2xl overflow-hidden z-10 h-full">
               <div className="relative h-full w-full rounded-xl overflow-hidden">
                 <img
                   src={profileImage}
@@ -66,7 +84,7 @@ const About = () => {
                   className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 {/* Image overlay shimmer on hover */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-neon-purple/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-accent-1/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
               </div>
             </div>
 
@@ -75,24 +93,17 @@ const About = () => {
               {stats.map((stat, i) => (
                 <motion.div
                   key={stat.label}
-                  className="glass-card p-3 flex flex-col items-center text-center gap-1.5 hover:-translate-y-1 transition-all duration-300 cursor-default"
+                  className="glass-card p-3 flex flex-col items-center text-center gap-1.5 hover:-translate-y-1 transition-all duration-300 cursor-default relative overflow-hidden group/stat"
                   initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
                   style={{ '--stat-color': stat.color }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = stat.color + '50';
-                    e.currentTarget.style.boxShadow = `0 0 16px ${stat.color}25`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = '';
-                    e.currentTarget.style.boxShadow = '';
-                  }}
                 >
+                  <div className="absolute inset-0 opacity-0 group-hover/stat:opacity-20 transition-opacity duration-300" style={{ backgroundColor: stat.color }}></div>
                   <span style={{ color: stat.color }}>{stat.icon}</span>
                   <span className="font-extrabold font-display text-lg leading-none" style={{ color: stat.color }}>{stat.value}</span>
-                  <span className="text-[10px] text-dark-muted font-medium leading-tight">{stat.label}</span>
+                  <span className="text-[10px] text-muted font-medium leading-tight">{stat.label}</span>
                 </motion.div>
               ))}
             </div>
@@ -111,10 +122,10 @@ const About = () => {
               <span className="gradient-text">user experience</span>.
             </h3>
 
-            <div className="space-y-5 text-dark-muted text-base md:text-lg leading-relaxed">
+            <div className="space-y-5 text-muted text-base md:text-lg leading-relaxed">
               <p>
                 Hello! I'm{' '}
-                <strong className="text-dark-text font-semibold">Tasuntha Chathunika Dayasiri</strong>,
+                <strong className="text-text font-semibold">Tasuntha Chathunika Dayasiri</strong>,
                 a highly motivated and results-oriented student at the University of Vavuniya.
               </p>
               <p>
@@ -137,7 +148,7 @@ const About = () => {
               {['Full-Stack Web', 'UI/UX Design', 'Creative Coding', 'Problem Solving'].map((chip) => (
                 <span
                   key={chip}
-                  className="px-3 py-1.5 text-xs font-semibold rounded-full glass-card border border-white/10 text-dark-muted hover:text-neon-cyan hover:border-neon-cyan/30 transition-all duration-300"
+                  className="px-3 py-1.5 text-xs font-semibold rounded-full glass-card border border-border text-muted hover:text-accent-3 hover:border-accent-3/30 transition-all duration-300"
                 >
                   {chip}
                 </span>
@@ -150,8 +161,8 @@ const About = () => {
                 target="_blank"
                 rel="noreferrer"
                 className="group relative inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden
-                  bg-gradient-to-r from-neon-purple to-neon-pink
-                  hover:shadow-xl hover:shadow-neon-purple/30 hover:-translate-y-0.5 transition-all duration-300"
+                  bg-gradient-to-r from-accent-1 to-accent-2
+                  hover:shadow-xl hover:shadow-accent-1/30 hover:-translate-y-0.5 transition-all duration-300"
               >
                 {/* Animated shine sweep */}
                 <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></span>
@@ -159,8 +170,8 @@ const About = () => {
               </a>
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold
-                  glass-card neon-border hover:border-neon-cyan/50 hover:shadow-neon-cyan/10 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold text-text
+                  glass-card neon-border hover:border-accent-3/50 hover:shadow-accent-3/10 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
               >
                 Let's Talk
               </a>

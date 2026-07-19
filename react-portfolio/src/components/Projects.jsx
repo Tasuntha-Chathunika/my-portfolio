@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Star, X, Code2, Database, Layout, ArrowRight } from 'lucide-react';
 import { FaGithub, FaFigma } from 'react-icons/fa';
+import Reveal from './Reveal';
 import pricepulseImg from '../assets/prisepluse.png';
 import attendanceImg from '../assets/hero.png';
 
@@ -17,11 +18,11 @@ const projectsData = [
     tags: [
       { name: 'React', color: '#61dafb' },
       { name: 'Node.js', color: '#68a063' },
-      { name: 'Express', color: '#ffffff' },
+      { name: 'Express', color: 'var(--theme-text)' },
     ],
     links: { github: 'https://github.com/Tasuntha-Chathunika/PricePulse-Project' },
-    gradient: 'from-neon-cyan to-neon-blue',
-    accentColor: '#00d4ff',
+    gradient: 'from-accent-3 to-accent-1',
+    accentColor: 'var(--theme-accent-3)',
     featured: true,
   },
   {
@@ -38,8 +39,8 @@ const projectsData = [
       { name: 'Tailwind CSS', color: '#06b6d4' },
     ],
     links: { github: '#' }, 
-    gradient: 'from-neon-purple to-neon-pink',
-    accentColor: '#a855f7',
+    gradient: 'from-accent-1 to-accent-2',
+    accentColor: 'var(--theme-accent-1)',
     featured: false,
   },
   {
@@ -52,11 +53,11 @@ const projectsData = [
     icon: <FaFigma size={36} />,
     tags: [
       { name: 'Figma', color: '#f24e1e' },
-      { name: 'UI/UX Design', color: '#a855f7' },
+      { name: 'UI/UX Design', color: 'var(--theme-accent-1)' },
     ],
     links: { demo: '#' }, 
-    gradient: 'from-neon-orange to-neon-pink',
-    accentColor: '#f97316',
+    gradient: 'from-accent-2 to-accent-1',
+    accentColor: 'var(--theme-accent-2)',
     featured: false,
   },
 ];
@@ -88,7 +89,7 @@ const ProjectCard = ({ project, index, onClick }) => {
       ref={cardRef}
       onClick={() => onClick(project)}
       className="group rounded-2xl overflow-hidden flex flex-col relative cursor-pointer
-                 bg-dark-bg/20 backdrop-blur-xl border border-white/10 hover:border-white/20"
+                 glass-card hover:border-accent-1/20"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -114,8 +115,8 @@ const ProjectCard = ({ project, index, onClick }) => {
         <div
           className="absolute top-5 right-5 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] uppercase tracking-wider font-bold text-white"
           style={{
-            background: 'linear-gradient(135deg, #f97316, #ff2d7b)',
-            boxShadow: '0 0 12px rgba(249,115,22,0.5)',
+            background: 'linear-gradient(135deg, var(--theme-accent-2), var(--theme-accent-1))',
+            boxShadow: '0 0 12px var(--theme-accent-2)',
           }}
         >
           <Star size={12} fill="white" />
@@ -129,7 +130,7 @@ const ProjectCard = ({ project, index, onClick }) => {
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-700 ease-out"
+            className="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-700 ease-out opacity-90"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
@@ -143,7 +144,7 @@ const ProjectCard = ({ project, index, onClick }) => {
           </div>
         )}
         {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a1a] via-transparent to-transparent opacity-80"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-transparent opacity-80"></div>
         
         {/* Click to view text on hover */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
@@ -154,16 +155,16 @@ const ProjectCard = ({ project, index, onClick }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6 flex flex-col flex-1 relative z-10 bg-[#0a0a1a]/40">
+      <div className="p-6 flex flex-col flex-1 relative z-10 bg-bg/40">
         <h3
-          className="text-2xl font-bold mb-3 transition-colors duration-300"
+          className="text-2xl font-bold mb-3 transition-colors duration-300 text-text"
           style={{ color: 'inherit' }}
           onMouseEnter={(e) => { e.currentTarget.style.color = project.accentColor; }}
           onMouseLeave={(e) => { e.currentTarget.style.color = ''; }}
         >
           {project.title}
         </h3>
-        <p className="text-dark-muted text-sm leading-relaxed mb-6 flex-1">{project.description}</p>
+        <p className="text-muted text-sm leading-relaxed mb-6 flex-1">{project.description}</p>
 
         {/* Colored tags */}
         <div className="flex flex-wrap gap-2 mb-6">
@@ -190,7 +191,7 @@ const ProjectCard = ({ project, index, onClick }) => {
               target="_blank"
               rel="noreferrer"
               className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl
-                bg-white/5 border border-white/10 text-sm font-semibold text-dark-text hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                glass-card text-sm font-semibold text-text hover:bg-border transition-all duration-300"
             >
               <FaGithub size={15} /> Code
             </a>
@@ -237,7 +238,7 @@ const ProjectModal = ({ project, onClose }) => {
         exit={{ opacity: 0, y: 20, scale: 0.95 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-4xl bg-[#0a0a1a] rounded-3xl border border-white/10 shadow-2xl overflow-hidden my-auto"
+        className="relative w-full max-w-4xl bg-card rounded-3xl border border-border shadow-2xl overflow-hidden my-auto"
         style={{ boxShadow: `0 0 60px ${project.accentColor}20` }}
       >
         {/* Close Button */}
@@ -249,23 +250,23 @@ const ProjectModal = ({ project, onClose }) => {
         </button>
 
         {/* Modal Header Image */}
-        <div className="relative h-64 md:h-80 w-full bg-dark-surface flex items-center justify-center overflow-hidden">
+        <div className="relative h-64 md:h-80 w-full bg-bg flex items-center justify-center overflow-hidden">
           {project.image ? (
             <img src={project.image} alt={project.title} className="w-full h-full object-cover opacity-60" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-dark-card to-dark-bg">
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-card to-bg">
               <div style={{ color: project.accentColor, opacity: 0.5 }} className="transform scale-150">
                 {project.icon}
               </div>
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a1a] to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent"></div>
           
           <div className="absolute bottom-0 left-0 w-full p-8 md:p-10">
-             <h2 className="text-3xl md:text-5xl font-black text-white mb-4 drop-shadow-lg">{project.title}</h2>
+             <h2 className="text-3xl md:text-5xl font-black text-text mb-4 drop-shadow-lg">{project.title}</h2>
              <div className="flex flex-wrap gap-2">
                 {project.tags.map(tag => (
-                  <span key={tag.name} className="px-3 py-1 rounded-full text-xs font-bold border border-white/20 bg-black/40 backdrop-blur-md text-white">
+                  <span key={tag.name} className="px-3 py-1 rounded-full text-xs font-bold border border-border bg-bg/40 backdrop-blur-md text-text">
                     {tag.name}
                   </span>
                 ))}
@@ -278,28 +279,28 @@ const ProjectModal = ({ project, onClose }) => {
            
            <div className="md:col-span-2 space-y-8">
               <div>
-                <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                <h4 className="text-xl font-bold text-text mb-3 flex items-center gap-2">
                   <Layout size={20} style={{ color: project.accentColor }}/> Overview
                 </h4>
-                <p className="text-dark-muted leading-relaxed text-base md:text-lg">
+                <p className="text-muted leading-relaxed text-base md:text-lg">
                   {project.fullDescription}
                 </p>
               </div>
 
               <div>
-                <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                <h4 className="text-xl font-bold text-text mb-3 flex items-center gap-2">
                   <Database size={20} style={{ color: project.accentColor }}/> Architecture
                 </h4>
-                <p className="text-dark-muted leading-relaxed">
+                <p className="text-muted leading-relaxed">
                   {project.architecture}
                 </p>
               </div>
 
               <div>
-                <h4 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                <h4 className="text-xl font-bold text-text mb-3 flex items-center gap-2">
                   <Code2 size={20} style={{ color: project.accentColor }}/> Challenges Solved
                 </h4>
-                <p className="text-dark-muted leading-relaxed">
+                <p className="text-muted leading-relaxed">
                   {project.challenges}
                 </p>
               </div>
@@ -307,11 +308,11 @@ const ProjectModal = ({ project, onClose }) => {
 
            {/* Sidebar Links & Tech */}
            <div className="space-y-8">
-              <div className="glass-card p-6 rounded-2xl border border-white/5">
-                <h4 className="text-lg font-bold text-white mb-4">Technologies</h4>
+              <div className="glass-card p-6 rounded-2xl">
+                <h4 className="text-lg font-bold text-text mb-4">Technologies</h4>
                 <ul className="flex flex-wrap gap-2">
                   {project.technologies.map(tech => (
-                    <li key={tech} className="px-3 py-1.5 rounded-lg bg-white/5 text-sm font-medium text-dark-muted">
+                    <li key={tech} className="px-3 py-1.5 rounded-lg bg-bg/50 border border-border text-sm font-medium text-muted">
                       {tech}
                     </li>
                   ))}
@@ -324,7 +325,7 @@ const ProjectModal = ({ project, onClose }) => {
                     href={project.links.github}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl border border-white/20 text-white font-bold hover:bg-white/5 transition-all"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl glass-card text-text font-bold hover:bg-border transition-all"
                   >
                     <FaGithub size={18} /> View Source Code
                   </a>
@@ -355,25 +356,25 @@ const Projects = () => {
   return (
     <section id="projects" className="py-28 md:py-36 relative overflow-hidden">
       {/* Blobs */}
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-neon-pink/10 rounded-full blur-[150px] pointer-events-none"></div>
-      <div className="absolute top-1/3 left-0 w-64 h-64 bg-neon-blue/8 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent-2/10 rounded-full blur-[150px] pointer-events-none"></div>
+      <div className="absolute top-1/3 left-0 w-64 h-64 bg-accent-1/8 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div className="section-container relative z-10">
-        <motion.div
-          className="mb-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-4xl md:text-5xl font-extrabold font-display">
-            Featured <span className="gradient-text">Projects</span>
-          </h2>
-          <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-neon-cyan to-neon-purple mx-auto"></div>
-          <p className="mt-4 text-dark-muted max-w-lg mx-auto text-sm md:text-base">
-            A selection of things I've built with passion. Click on a project to view detailed case studies.
-          </p>
-        </motion.div>
+        <div className="mb-16 flex flex-col items-center text-center">
+          <Reveal>
+            <h2 className="text-4xl md:text-5xl font-extrabold font-display">
+              Featured <span className="gradient-text">Projects</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-accent-3 to-accent-1 mx-auto"></div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="mt-4 text-muted max-w-lg mx-auto text-sm md:text-base">
+              A selection of things I've built with passion. Click on a project to view detailed case studies.
+            </p>
+          </Reveal>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projectsData.map((project, index) => (

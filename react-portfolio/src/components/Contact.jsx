@@ -48,6 +48,20 @@ const Toast = ({ type, message, onClose }) => (
   </motion.div>
 );
 
+const formFieldVariants = {
+  hidden: { opacity: 0, y: 25, filter: 'blur(6px)' },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.5,
+      delay: 0.2 + i * 0.1,
+      ease: [0.23, 1, 0.32, 1],
+    },
+  }),
+};
+
 const Contact = () => {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle | sending | success | error
@@ -120,14 +134,20 @@ const Contact = () => {
         <div className="max-w-5xl mx-auto">
           <motion.div
             className="glass-card overflow-hidden"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 40, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
           >
             <div className="flex flex-col md:flex-row">
               {/* Left - Info */}
-              <div className="flex-1 p-8 md:p-12 bg-card/30 border-b md:border-b-0 md:border-r border-border relative">
+              <motion.div
+                className="flex-1 p-8 md:p-12 bg-card/30 border-b md:border-b-0 md:border-r border-border relative"
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
                 <div className="absolute top-0 right-0 w-40 h-40 bg-accent-1/10 rounded-full blur-[80px] pointer-events-none"></div>
 
                 <h3 className="text-2xl md:text-3xl font-bold mb-3 relative z-10 text-text">
@@ -139,11 +159,16 @@ const Contact = () => {
 
                 {/* Direct contact info cards */}
                 <div className="flex flex-col gap-3 mb-8 relative z-10">
-                  {contactInfo.map((info) => (
-                    <a
+                  {contactInfo.map((info, i) => (
+                    <motion.a
                       key={info.label}
                       href={info.href}
-                      className="group flex items-center gap-3 p-3.5 rounded-xl glass-card hover:-translate-x-1 transition-all duration-300"
+                      className="group flex items-center gap-3 p-3.5 rounded-xl glass-card transition-all duration-300"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + i * 0.1 }}
+                      whileHover={{ x: -4, boxShadow: `0 4px 20px ${info.color}15` }}
                     >
                       <span className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center relative overflow-hidden"
                         style={{ color: info.color }}
@@ -155,7 +180,7 @@ const Contact = () => {
                         <div className="text-[10px] font-bold uppercase tracking-widest text-muted">{info.label}</div>
                         <div className="text-sm font-medium text-text group-hover:text-accent-3 transition-colors">{info.value}</div>
                       </div>
-                    </a>
+                    </motion.a>
                   ))}
                 </div>
 
@@ -163,30 +188,43 @@ const Contact = () => {
                 <div className="relative z-10">
                   <p className="text-xs text-muted font-semibold uppercase tracking-widest mb-3">Connect</p>
                   <div className="flex flex-wrap gap-2">
-                    {socialLinks.map((social) => (
-                      <a
+                    {socialLinks.map((social, i) => (
+                      <motion.a
                         key={social.label}
                         href={social.href}
                         target="_blank"
                         rel="noreferrer"
-                        className="group relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl glass-card text-muted
-                          hover:-translate-y-1 transition-all duration-300 text-sm font-medium overflow-hidden hover:border-border"
+                        className="social-link-enhanced group relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl glass-card text-muted
+                          text-sm font-medium overflow-hidden hover:border-border"
+                        style={{ '--social-color': social.color }}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.4 + i * 0.06 }}
+                        whileHover={{ y: -3 }}
                       >
                          <span className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300" style={{ backgroundColor: social.color }}></span>
                          <span className="relative z-10" style={{ color: social.color }}>{social.icon}</span>
                         <span className="text-xs group-hover:text-text transition-colors relative z-10">{social.label}</span>
-                      </a>
+                      </motion.a>
                     ))}
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Right - Form */}
               <div className="flex-[1.3] p-8 md:p-12 relative">
                 <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                   
                   {/* Name Field */}
-                  <div className="group flex flex-col gap-1.5">
+                  <motion.div
+                    className="group flex flex-col gap-1.5"
+                    custom={0}
+                    variants={formFieldVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                  >
                     <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-muted group-focus-within:text-accent-2 transition-colors">
                       Full Name
                     </label>
@@ -203,10 +241,17 @@ const Contact = () => {
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-accent-2 to-accent-1 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Email Field */}
-                  <div className="group flex flex-col gap-1.5">
+                  <motion.div
+                    className="group flex flex-col gap-1.5"
+                    custom={1}
+                    variants={formFieldVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                  >
                     <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-muted group-focus-within:text-accent-2 transition-colors">
                       Email Address
                     </label>
@@ -222,10 +267,17 @@ const Contact = () => {
                       />
                       <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-accent-2 to-accent-1 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Message Field */}
-                  <div className="group flex flex-col gap-1.5">
+                  <motion.div
+                    className="group flex flex-col gap-1.5"
+                    custom={2}
+                    variants={formFieldVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                  >
                     <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-muted group-focus-within:text-accent-2 transition-colors">
                       Message
                     </label>
@@ -241,17 +293,24 @@ const Contact = () => {
                       ></textarea>
                       <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-accent-2 to-accent-1 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left rounded-full pointer-events-none"></div>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Submit Button */}
-                  <button
+                  <motion.button
                     type="submit"
                     disabled={status === 'sending'}
                     className="mt-2 group relative w-full h-14 flex items-center justify-center rounded-xl
                       font-bold text-lg text-white overflow-hidden
                       bg-gradient-to-r from-accent-1 to-accent-2
-                      hover:shadow-lg hover:shadow-accent-2/30 hover:-translate-y-0.5 transition-all duration-300 animated-gradient-bg
+                      hover:shadow-lg hover:shadow-accent-2/30 transition-all duration-300 animated-gradient-bg
                       disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                    custom={3}
+                    variants={formFieldVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     {/* Shine sweep on hover */}
                     <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none"></span>
@@ -289,7 +348,7 @@ const Contact = () => {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </button>
+                  </motion.button>
                 </form>
               </div>
             </div>

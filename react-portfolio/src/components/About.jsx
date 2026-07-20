@@ -1,22 +1,95 @@
-import { useRef } from 'react';
-import { motion } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Download, Code2, Layers, BookOpen } from 'lucide-react';
 import profileImage from '../assets/IMG_20240613_205017.jpg';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import Reveal from './Reveal';
 
 const stats = [
-  { icon: <Code2 size={20} />, value: '3+', label: 'Years Coding', color: 'var(--theme-accent-3)' },
-  { icon: <Layers size={20} />, value: '10+', label: 'Projects Built', color: 'var(--theme-accent-1)' },
-  { icon: <BookOpen size={20} />, value: 'BICT (Hons)', label: 'Undergraduate', color: 'var(--theme-accent-2)' },
+  { icon: <Code2 size={20} />, value: '3+', numValue: 3, label: 'Years Coding', color: 'var(--theme-accent-3)', suffix: '+' },
+  { icon: <Layers size={20} />, value: '10+', numValue: 10, label: 'Projects Built', color: 'var(--theme-accent-1)', suffix: '+' },
+  { icon: <BookOpen size={20} />, value: 'BICT (Hons)', numValue: null, label: 'Undergraduate', color: 'var(--theme-accent-2)', suffix: '' },
 ];
+
+// Counter animation hook
+const useCountUp = (target, isVisible, duration = 1.5) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isVisible || target === null) return;
+
+    let startTime = null;
+    const animate = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / (duration * 1000), 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * target));
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [isVisible, target, duration]);
+
+  return count;
+};
+
+const StatCard = ({ stat, index }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const count = useCountUp(stat.numValue, isInView);
+
+  return (
+    <motion.div
+      ref={ref}
+      className="glass-card p-3 flex flex-col items-center text-center gap-1.5 hover:-translate-y-1 transition-all duration-300 cursor-default relative overflow-hidden group/stat"
+      initial={{ opacity: 0, y: 15, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: 0.4 + index * 0.12, ease: [0.23, 1, 0.32, 1] }}
+      style={{ '--stat-color': stat.color }}
+    >
+      <div className="absolute inset-0 opacity-0 group-hover/stat:opacity-20 transition-opacity duration-300" style={{ backgroundColor: stat.color }}></div>
+      <motion.span
+        style={{ color: stat.color }}
+        whileHover={{ scale: 1.2, rotate: 10 }}
+        transition={{ type: 'spring', stiffness: 300 }}
+      >
+        {stat.icon}
+      </motion.span>
+      <span className="font-extrabold font-display text-lg leading-none" style={{ color: stat.color }}>
+        {stat.numValue !== null ? `${count}${stat.suffix}` : stat.value}
+      </span>
+      <span className="text-[10px] text-muted font-medium leading-tight">{stat.label}</span>
+    </motion.div>
+  );
+};
 
 const About = () => {
   const aboutRef = useRef(null);
 
   useGSAP(() => {
+    // Enhanced image parallax with slight rotation
     gsap.to('.about-image-container', {
-      y: -50,
+      y: -60,
+      rotation: -1.5,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: aboutRef.current,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true,
+      }
+    });
+
+    // Text content parallax (opposite direction, slower)
+    gsap.to('.about-text-content', {
+      y: -30,
       ease: 'none',
       scrollTrigger: {
         trigger: aboutRef.current,
@@ -27,6 +100,21 @@ const About = () => {
     });
   }, { scope: aboutRef });
 
+  // Stagger variants for paragraphs
+  const paragraphVariants = {
+    hidden: { opacity: 0, y: 20, filter: 'blur(6px)' },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: {
+        duration: 0.6,
+        delay: 0.3 + i * 0.1,
+        ease: [0.17, 0.55, 0.55, 1],
+      },
+    }),
+  };
+
   return (
     <section ref={aboutRef} id="about" className="py-28 md:py-36 relative overflow-hidden">
       {/* Decorative blobs */}
@@ -35,27 +123,23 @@ const About = () => {
 
       <div className="section-container relative z-10">
         {/* Section Heading */}
-        <motion.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-4xl md:text-5xl font-extrabold font-display">
-            About <span className="gradient-text">Me</span>
-          </h2>
-          <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-accent-1 to-accent-2"></div>
-        </motion.div>
+        <Reveal>
+          <div className="mb-16">
+            <h2 className="text-4xl md:text-5xl font-extrabold font-display">
+              About <span className="gradient-text">Me</span>
+            </h2>
+            <div className="mt-4 w-20 h-1 rounded-full bg-gradient-to-r from-accent-1 to-accent-2"></div>
+          </div>
+        </Reveal>
 
         <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
           {/* Image + Stats */}
           <motion.div
             className="about-image-container w-full max-w-xs lg:max-w-sm relative group flex-shrink-0"
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: -40, rotate: -3 }}
+            whileInView={{ opacity: 1, x: 0, rotate: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
           >
             {/* Outer animated gradient ring (Glow) */}
             <div className="absolute -inset-1 rounded-[1.3rem] opacity-40 blur-xl"
@@ -88,94 +172,103 @@ const About = () => {
               </div>
             </div>
 
-            {/* Stats Row below image */}
+            {/* Stats Row below image with counter animation */}
             <div className="grid grid-cols-3 gap-2 mt-4">
               {stats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  className="glass-card p-3 flex flex-col items-center text-center gap-1.5 hover:-translate-y-1 transition-all duration-300 cursor-default relative overflow-hidden group/stat"
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                  style={{ '--stat-color': stat.color }}
-                >
-                  <div className="absolute inset-0 opacity-0 group-hover/stat:opacity-20 transition-opacity duration-300" style={{ backgroundColor: stat.color }}></div>
-                  <span style={{ color: stat.color }}>{stat.icon}</span>
-                  <span className="font-extrabold font-display text-lg leading-none" style={{ color: stat.color }}>{stat.value}</span>
-                  <span className="text-[10px] text-muted font-medium leading-tight">{stat.label}</span>
-                </motion.div>
+                <StatCard key={stat.label} stat={stat} index={i} />
               ))}
             </div>
           </motion.div>
 
           {/* Text Content */}
           <motion.div
-            className="flex-1"
+            className="about-text-content flex-1"
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h3 className="text-2xl md:text-3xl font-bold mb-6 leading-snug">
-              Developing robust solutions with a focus on{' '}
-              <span className="gradient-text">user experience</span>.
-            </h3>
+            <Reveal direction="right" delay={0.1}>
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 leading-snug">
+                Developing robust solutions with a focus on{' '}
+                <span className="gradient-text">user experience</span>.
+              </h3>
+            </Reveal>
 
             <div className="space-y-5 text-muted text-base md:text-lg leading-relaxed">
-              <p>
-                Hello! I'm{' '}
-                <strong className="text-text font-semibold">Tasuntha Chathunika Dayasiri</strong>,
-                a highly motivated and results-oriented student at the University of Vavuniya.
-              </p>
-              <p>
-                I am currently pursuing a Bachelor of Information and Communication Technology (Hons). 
-                My primary goal is to leverage my growing technical skills and creativity 
-                to contribute to impactful projects in the tech industry.
-              </p>
-              <p>
-                I have a strong foundation in modern web development (HTML, CSS, JavaScript, React, Tailwind CSS)
-                and backend systems (Node.js). I'm also enthusiastic about exploring creative coding with Three.js and p5.js.
-              </p>
-              <p>
-                Beyond web development, my skillset extends to C, C++, C#, and Java. I am equally passionate about creative design,
-                utilizing professional tools like Adobe Photoshop, Illustrator, Premiere Pro, and Figma to craft visually compelling experiences.
-              </p>
-            </div>
-
-            {/* Highlight chips */}
-            <div className="flex flex-wrap gap-2 mt-6">
-              {['Full-Stack Web', 'UI/UX Design', 'Creative Coding', 'Problem Solving'].map((chip) => (
-                <span
-                  key={chip}
-                  className="px-3 py-1.5 text-xs font-semibold rounded-full glass-card border border-border text-muted hover:text-accent-3 hover:border-accent-3/30 transition-all duration-300"
+              {[
+                <>Hello! I'm{' '}<strong className="text-text font-semibold">Tasuntha Chathunika Dayasiri</strong>, a highly motivated and results-oriented student at the University of Vavuniya.</>,
+                <>I am currently pursuing a Bachelor of Information and Communication Technology (Hons). My primary goal is to leverage my growing technical skills and creativity to contribute to impactful projects in the tech industry.</>,
+                <>I have a strong foundation in modern web development (HTML, CSS, JavaScript, React, Tailwind CSS) and backend systems (Node.js). I'm also enthusiastic about exploring creative coding with Three.js and p5.js.</>,
+                <>Beyond web development, my skillset extends to C, C++, C#, and Java. I am equally passionate about creative design, utilizing professional tools like Adobe Photoshop, Illustrator, Premiere Pro, and Figma to craft visually compelling experiences.</>,
+              ].map((content, i) => (
+                <motion.p
+                  key={i}
+                  custom={i}
+                  variants={paragraphVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
                 >
-                  {chip}
-                </span>
+                  {content}
+                </motion.p>
               ))}
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-4">
-              <a
+            {/* Highlight chips */}
+            <motion.div
+              className="flex flex-wrap gap-2 mt-6"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              {['Full-Stack Web', 'UI/UX Design', 'Creative Coding', 'Problem Solving'].map((chip, i) => (
+                <motion.span
+                  key={chip}
+                  className="px-3 py-1.5 text-xs font-semibold rounded-full glass-card border border-border text-muted hover:text-accent-3 hover:border-accent-3/30 transition-all duration-300"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.7 + i * 0.08, duration: 0.3 }}
+                  whileHover={{ scale: 1.08, y: -2 }}
+                >
+                  {chip}
+                </motion.span>
+              ))}
+            </motion.div>
+
+            <motion.div
+              className="mt-10 flex flex-wrap gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+            >
+              <motion.a
                 href="#" /* REPLACE '#' WITH YOUR RESUME GOOGLE DRIVE OR PDF LINK */
                 target="_blank"
                 rel="noreferrer"
                 className="group relative inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden
                   bg-gradient-to-r from-accent-1 to-accent-2
-                  hover:shadow-xl hover:shadow-accent-1/30 hover:-translate-y-0.5 transition-all duration-300"
+                  hover:shadow-xl hover:shadow-accent-1/30 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.97 }}
               >
                 {/* Animated shine sweep */}
                 <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></span>
                 Download Resume <Download size={18} />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="#contact"
                 className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold text-text
-                  glass-card neon-border hover:border-accent-3/50 hover:shadow-accent-3/10 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                  glass-card neon-border hover:border-accent-3/50 hover:shadow-accent-3/10 hover:shadow-lg transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.97 }}
               >
                 Let's Talk
-              </a>
-            </div>
+              </motion.a>
+            </motion.div>
           </motion.div>
         </div>
       </div>

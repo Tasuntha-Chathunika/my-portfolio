@@ -8,15 +8,64 @@ const Hero = () => {
   const heroRef = useRef(null);
 
   useGSAP(() => {
-    gsap.to('.hero-content', {
-      y: 150,
+    // Multi-layer parallax — each element moves at a different speed
+    gsap.to('.hero-badge', {
+      y: 80,
       opacity: 0,
-      scale: 0.9,
       ease: 'none',
       scrollTrigger: {
         trigger: heroRef.current,
         start: 'top top',
         end: 'bottom top',
+        scrub: true,
+      },
+    });
+
+    gsap.to('.hero-title', {
+      y: 120,
+      opacity: 0,
+      scale: 0.95,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+
+    gsap.to('.hero-subtitle', {
+      y: 160,
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+
+    gsap.to('.hero-description', {
+      y: 180,
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: 'top top',
+        end: '80% top',
+        scrub: true,
+      },
+    });
+
+    gsap.to('.hero-buttons', {
+      y: 200,
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: 'top top',
+        end: '70% top',
         scrub: true,
       },
     });
@@ -31,7 +80,41 @@ const Hero = () => {
         scrub: true,
       }
     });
+
+    // Grid pattern parallax
+    gsap.to('.hero-grid', {
+      y: 100,
+      opacity: 0.05,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      }
+    });
   }, { scope: heroRef });
+
+  // Stagger animation variants
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { duration: 0.8, ease: [0.17, 0.55, 0.55, 1] },
+    },
+  };
 
   return (
     <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -41,19 +124,22 @@ const Hero = () => {
       <div className="hero-blob absolute bottom-20 left-1/3 w-72 h-72 bg-accent-3/15 rounded-full blur-[120px] animate-blob" style={{ animationDelay: '4s' }}></div>
 
       {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{
+      <div className="hero-grid absolute inset-0 opacity-20 pointer-events-none" style={{
         backgroundImage: 'radial-gradient(circle at center, var(--theme-text) 1px, transparent 1px)',
         backgroundSize: '40px 40px'
       }}></div>
 
       <div className="section-container relative z-10 w-full pt-24">
-        <div className="hero-content max-w-4xl mx-auto text-center">
+        <motion.div
+          className="hero-content max-w-4xl mx-auto text-center"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {/* Status Badge */}
           <motion.div
-            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-card neon-border mb-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            className="hero-badge inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-card neon-border mb-10"
+            variants={itemVariants}
           >
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75 animate-ping"></span>
@@ -67,26 +153,25 @@ const Hero = () => {
 
           {/* Title */}
           <motion.h1
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black font-display leading-[1.1] mb-8 tracking-tight"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
+            className="hero-title text-6xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black font-display leading-[1.1] mb-8 tracking-tight"
+            variants={itemVariants}
           >
             Hi, I'm{' '}
             <span className="gradient-text">Tasuntha Chathunika</span>
             <span className="text-accent-2">.</span>
-            <br />
-            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-muted font-bold mt-4 inline-block">
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.div className="hero-subtitle mb-8" variants={itemVariants}>
+            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-muted font-bold inline-block">
               Software Engineer &amp; Web Developer.
             </span>
-          </motion.h1>
+          </motion.div>
 
           {/* Description */}
           <motion.p
-            className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-12 leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35 }}
+            className="hero-description text-lg md:text-xl text-muted max-w-2xl mx-auto mb-12 leading-relaxed"
+            variants={itemVariants}
           >
             I build high-quality software solutions and premium web experiences.
             Currently pursuing my BICT (Hons) and eager to tackle complex challenges.
@@ -94,31 +179,54 @@ const Hero = () => {
 
           {/* Buttons */}
           <motion.div
-            className="flex flex-wrap gap-4 justify-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
+            className="hero-buttons flex flex-wrap gap-4 justify-center"
+            variants={itemVariants}
           >
-            <a
+            <motion.a
               href="#projects"
               className="group flex items-center gap-2.5 px-8 py-4 rounded-xl font-semibold text-white
                 bg-gradient-to-r from-accent-3 to-accent-1
-                hover:shadow-lg hover:shadow-accent-3/50 hover:scale-105 hover:-translate-y-1 transition-all duration-300"
+                hover:shadow-lg hover:shadow-accent-3/50 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -3 }}
+              whileTap={{ scale: 0.97 }}
             >
               View Projects
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="#contact"
               className="group flex items-center gap-2.5 px-8 py-4 rounded-xl font-semibold text-text
-                glass-card neon-border hover:border-accent-2/50 hover:shadow-lg hover:shadow-accent-2/30 hover:scale-105 hover:-translate-y-1 transition-all duration-300"
+                glass-card neon-border hover:border-accent-2/50 hover:shadow-lg hover:shadow-accent-2/30 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -3 }}
+              whileTap={{ scale: 0.97 }}
             >
               Contact Me
               <Mail size={18} />
-            </a>
+            </motion.a>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
+      >
+        <span className="text-[10px] text-muted font-semibold uppercase tracking-[0.3em]">Scroll</span>
+        <motion.div
+          className="w-5 h-8 rounded-full border-2 border-muted/30 flex items-start justify-center p-1"
+          animate={{ borderColor: ['rgba(136,136,170,0.3)', 'rgba(168,85,247,0.5)', 'rgba(136,136,170,0.3)'] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <motion.div
+            className="w-1 h-2 rounded-full bg-accent-1"
+            animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </motion.div>
+      </motion.div>
 
       {/* Bottom Gradient Fade */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-bg to-transparent pointer-events-none"></div>

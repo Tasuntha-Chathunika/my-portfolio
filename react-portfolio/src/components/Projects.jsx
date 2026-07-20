@@ -90,10 +90,14 @@ const ProjectCard = ({ project, index, onClick }) => {
       onClick={() => onClick(project)}
       className="group rounded-2xl overflow-hidden flex flex-col relative cursor-pointer
                  glass-card hover:border-accent-1/20"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.12 }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.15,
+        ease: [0.23, 1, 0.32, 1],
+      }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -112,16 +116,20 @@ const ProjectCard = ({ project, index, onClick }) => {
 
       {/* Featured Badge */}
       {project.featured && (
-        <div
+        <motion.div
           className="absolute top-5 right-5 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] uppercase tracking-wider font-bold text-white"
           style={{
             background: 'linear-gradient(135deg, var(--theme-accent-2), var(--theme-accent-1))',
             boxShadow: '0 0 12px var(--theme-accent-2)',
           }}
+          initial={{ opacity: 0, scale: 0, rotate: -20 }}
+          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: index * 0.15 + 0.4, type: 'spring', stiffness: 300 }}
         >
           <Star size={12} fill="white" />
           Featured
-        </div>
+        </motion.div>
       )}
 
       {/* Image / Icon Area */}
@@ -135,12 +143,13 @@ const ProjectCard = ({ project, index, onClick }) => {
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-5 group-hover:opacity-20 transition-opacity duration-500`}></div>
-            <div
-              className="transition-all duration-500 z-10 opacity-50 group-hover:opacity-100 transform scale-100 group-hover:scale-125"
+            <motion.div
+              className="z-10 opacity-50 group-hover:opacity-100 transition-opacity duration-500"
               style={{ color: project.accentColor }}
+              whileHover={{ scale: 1.3, rotate: 10 }}
             >
               {project.icon}
-            </div>
+            </motion.div>
           </div>
         )}
         {/* Overlay gradient */}
@@ -148,9 +157,14 @@ const ProjectCard = ({ project, index, onClick }) => {
         
         {/* Click to view text on hover */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
-           <span className="px-6 py-2 rounded-full glass-card border border-white/20 text-white font-semibold text-sm flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+           <motion.span
+             className="px-6 py-2 rounded-full glass-card border border-white/20 text-white font-semibold text-sm flex items-center gap-2"
+             initial={{ y: 15, opacity: 0 }}
+             whileInView={{ y: 0, opacity: 1 }}
+             transition={{ duration: 0.3 }}
+           >
              View Case Study <ArrowRight size={16} />
-           </span>
+           </motion.span>
         </div>
       </div>
 
@@ -168,8 +182,8 @@ const ProjectCard = ({ project, index, onClick }) => {
 
         {/* Colored tags */}
         <div className="flex flex-wrap gap-2 mb-6">
-          {project.tags.map(tag => (
-            <span
+          {project.tags.map((tag, i) => (
+            <motion.span
               key={tag.name}
               className="px-3 py-1 rounded-full text-[11px] font-bold border transition-all duration-300"
               style={{
@@ -177,27 +191,34 @@ const ProjectCard = ({ project, index, onClick }) => {
                 borderColor: tag.color + '40',
                 backgroundColor: tag.color + '10',
               }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.15 + 0.3 + i * 0.05, duration: 0.3 }}
+              whileHover={{ scale: 1.1 }}
             >
               {tag.name}
-            </span>
+            </motion.span>
           ))}
         </div>
 
         {/* Links (Stop propagation so clicking links doesn't open modal) */}
         <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
           {project.links.github && (
-            <a
+            <motion.a
               href={project.links.github}
               target="_blank"
               rel="noreferrer"
               className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl
                 glass-card text-sm font-semibold text-text hover:bg-border transition-all duration-300"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
             >
               <FaGithub size={15} /> Code
-            </a>
+            </motion.a>
           )}
           {project.links.demo && (
-            <a
+            <motion.a
               href={project.links.demo}
               target="_blank"
               rel="noreferrer"
@@ -205,9 +226,11 @@ const ProjectCard = ({ project, index, onClick }) => {
                 text-sm font-bold text-white bg-gradient-to-r ${project.gradient}
                 hover:shadow-[0_0_20px_rgba(var(--tw-shadow-color),0.4)] transition-all duration-300`}
               style={{ '--tw-shadow-color': project.accentColor }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
             >
               <ExternalLink size={15} /> Demo
-            </a>
+            </motion.a>
           )}
         </div>
       </div>
@@ -224,6 +247,15 @@ const ProjectModal = ({ project, onClose }) => {
     };
   }, []);
 
+  // Close on escape key
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -233,26 +265,35 @@ const ProjectModal = ({ project, onClose }) => {
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-12 bg-black/60 backdrop-blur-md overflow-y-auto"
     >
       <motion.div
-        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        initial={{ opacity: 0, y: 60, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 20, scale: 0.95 }}
+        exit={{ opacity: 0, y: 30, scale: 0.95 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-4xl bg-card rounded-3xl border border-border shadow-2xl overflow-hidden my-auto"
         style={{ boxShadow: `0 0 60px ${project.accentColor}20` }}
       >
         {/* Close Button */}
-        <button
+        <motion.button
           onClick={onClose}
           className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/50 text-white/70 hover:text-white hover:bg-white/10 transition-all backdrop-blur-md"
+          whileHover={{ scale: 1.1, rotate: 90 }}
+          whileTap={{ scale: 0.9 }}
         >
           <X size={24} />
-        </button>
+        </motion.button>
 
         {/* Modal Header Image */}
         <div className="relative h-64 md:h-80 w-full bg-bg flex items-center justify-center overflow-hidden">
           {project.image ? (
-            <img src={project.image} alt={project.title} className="w-full h-full object-cover opacity-60" />
+            <motion.img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover opacity-60"
+              initial={{ scale: 1.1 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6 }}
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-card to-bg">
               <div style={{ color: project.accentColor, opacity: 0.5 }} className="transform scale-150">
@@ -263,12 +304,25 @@ const ProjectModal = ({ project, onClose }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent"></div>
           
           <div className="absolute bottom-0 left-0 w-full p-8 md:p-10">
-             <h2 className="text-3xl md:text-5xl font-black text-text mb-4 drop-shadow-lg">{project.title}</h2>
+             <motion.h2
+               className="text-3xl md:text-5xl font-black text-text mb-4 drop-shadow-lg"
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: 0.2, duration: 0.5 }}
+             >
+               {project.title}
+             </motion.h2>
              <div className="flex flex-wrap gap-2">
-                {project.tags.map(tag => (
-                  <span key={tag.name} className="px-3 py-1 rounded-full text-xs font-bold border border-border bg-bg/40 backdrop-blur-md text-text">
+                {project.tags.map((tag, i) => (
+                  <motion.span
+                    key={tag.name}
+                    className="px-3 py-1 rounded-full text-xs font-bold border border-border bg-bg/40 backdrop-blur-md text-text"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 + i * 0.05 }}
+                  >
                     {tag.name}
-                  </span>
+                  </motion.span>
                 ))}
              </div>
           </div>
@@ -278,71 +332,79 @@ const ProjectModal = ({ project, onClose }) => {
         <div className="p-8 md:p-10 grid grid-cols-1 md:grid-cols-3 gap-10">
            
            <div className="md:col-span-2 space-y-8">
-              <div>
-                <h4 className="text-xl font-bold text-text mb-3 flex items-center gap-2">
-                  <Layout size={20} style={{ color: project.accentColor }}/> Overview
-                </h4>
-                <p className="text-muted leading-relaxed text-base md:text-lg">
-                  {project.fullDescription}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-xl font-bold text-text mb-3 flex items-center gap-2">
-                  <Database size={20} style={{ color: project.accentColor }}/> Architecture
-                </h4>
-                <p className="text-muted leading-relaxed">
-                  {project.architecture}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-xl font-bold text-text mb-3 flex items-center gap-2">
-                  <Code2 size={20} style={{ color: project.accentColor }}/> Challenges Solved
-                </h4>
-                <p className="text-muted leading-relaxed">
-                  {project.challenges}
-                </p>
-              </div>
+              {[
+                { icon: <Layout size={20} />, title: 'Overview', content: project.fullDescription },
+                { icon: <Database size={20} />, title: 'Architecture', content: project.architecture },
+                { icon: <Code2 size={20} />, title: 'Challenges Solved', content: project.challenges },
+              ].map((section, i) => (
+                <motion.div
+                  key={section.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }}
+                >
+                  <h4 className="text-xl font-bold text-text mb-3 flex items-center gap-2">
+                    <span style={{ color: project.accentColor }}>{section.icon}</span> {section.title}
+                  </h4>
+                  <p className="text-muted leading-relaxed text-base md:text-lg">
+                    {section.content}
+                  </p>
+                </motion.div>
+              ))}
            </div>
 
            {/* Sidebar Links & Tech */}
-           <div className="space-y-8">
+           <motion.div
+             className="space-y-8"
+             initial={{ opacity: 0, x: 20 }}
+             animate={{ opacity: 1, x: 0 }}
+             transition={{ delay: 0.5, duration: 0.5 }}
+           >
               <div className="glass-card p-6 rounded-2xl">
                 <h4 className="text-lg font-bold text-text mb-4">Technologies</h4>
                 <ul className="flex flex-wrap gap-2">
-                  {project.technologies.map(tech => (
-                    <li key={tech} className="px-3 py-1.5 rounded-lg bg-bg/50 border border-border text-sm font-medium text-muted">
+                  {project.technologies.map((tech, i) => (
+                    <motion.li
+                      key={tech}
+                      className="px-3 py-1.5 rounded-lg bg-bg/50 border border-border text-sm font-medium text-muted"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.6 + i * 0.05 }}
+                    >
                       {tech}
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               </div>
 
               <div className="space-y-4">
                 {project.links.github && (
-                  <a
+                  <motion.a
                     href={project.links.github}
                     target="_blank"
                     rel="noreferrer"
                     className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl glass-card text-text font-bold hover:bg-border transition-all"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.97 }}
                   >
                     <FaGithub size={18} /> View Source Code
-                  </a>
+                  </motion.a>
                 )}
                 {project.links.demo && (
-                  <a
+                  <motion.a
                     href={project.links.demo}
                     target="_blank"
                     rel="noreferrer"
                     className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-white font-bold bg-gradient-to-r ${project.gradient} hover:shadow-lg transition-all`}
                     style={{ '--tw-shadow-color': project.accentColor }}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.97 }}
                   >
                     <ExternalLink size={18} /> Live Demonstration
-                  </a>
+                  </motion.a>
                 )}
               </div>
-           </div>
+           </motion.div>
 
         </div>
       </motion.div>

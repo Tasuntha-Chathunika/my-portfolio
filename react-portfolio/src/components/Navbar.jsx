@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -15,37 +15,70 @@ const Navbar = ({ theme, toggleTheme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [scrolled, setScrolled] = useState(false);
+  const [navVisible, setNavVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-      const sections = navLinks.map(link => document.querySelector(link.href));
-      const scrollPosition = window.scrollY + 100;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(section.id);
-          break;
-        }
+      if (!ticking.current) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+
+          // Scrolled state for background
+          setScrolled(currentScrollY > 20);
+
+          // Smart hide/show — hide on scroll down, show on scroll up
+          if (currentScrollY < 100) {
+            setNavVisible(true); // Always show at top
+          } else if (currentScrollY > lastScrollY.current + 5) {
+            setNavVisible(false); // Scrolling down
+          } else if (currentScrollY < lastScrollY.current - 5) {
+            setNavVisible(true); // Scrolling up
+          }
+
+          lastScrollY.current = currentScrollY;
+
+          // Active section detection
+          const sections = navLinks.map(link => document.querySelector(link.href));
+          const scrollPosition = currentScrollY + 100;
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const section = sections[i];
+            if (section && section.offsetTop <= scrollPosition) {
+              setActiveSection(section.id);
+              break;
+            }
+          }
+
+          ticking.current = false;
+        });
+        ticking.current = true;
       }
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
         ${scrolled
           ? 'py-3 bg-bg/30 backdrop-blur-md border-b border-border shadow-lg shadow-accent-1/10'
           : 'py-5 bg-transparent border-b border-transparent'
-        }`}
+        }
+        ${navVisible ? 'navbar-visible' : 'navbar-hidden'}`}
     >
       <div className="section-container flex items-center justify-between">
         {/* Logo */}
-        <a href="#hero" className="font-display font-extrabold text-2xl tracking-tight">
+        <motion.a
+          href="#hero"
+          className="font-display font-extrabold text-2xl tracking-tight"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
           Tasuntha<span className="text-accent-2">.</span>
-        </a>
+        </motion.a>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
@@ -54,7 +87,7 @@ const Navbar = ({ theme, toggleTheme }) => {
               <li key={link.name}>
                 <a
                   href={link.href}
-                  className={`text-sm font-medium transition-all duration-200 relative
+                  className={`text-sm font-medium transition-all duration-200 relative py-1
                     ${activeSection === link.href.substring(1)
                       ? 'text-accent-3'
                       : 'text-muted hover:text-text'}`}
@@ -63,7 +96,11 @@ const Navbar = ({ theme, toggleTheme }) => {
                   {activeSection === link.href.substring(1) && (
                     <motion.span
                       layoutId="activeNav"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent-3 rounded-full"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
+                      style={{
+                        background: 'linear-gradient(90deg, var(--theme-accent-3), var(--theme-accent-1))',
+                      }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                     />
                   )}
                 </a>
@@ -71,21 +108,47 @@ const Navbar = ({ theme, toggleTheme }) => {
             ))}
           </ul>
           <div className="flex items-center gap-3">
-            <button
+            <motion.button
               onClick={toggleTheme}
               className="p-2.5 rounded-xl bg-surface/50 border border-border hover:border-accent-1/30 transition-all text-text"
               aria-label="Toggle Theme"
+              whileHover={{ scale: 1.1, rotate: 15 }}
+              whileTap={{ scale: 0.9 }}
             >
-              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
-            <a
+              <AnimatePresence mode="wait">
+                {theme === 'dark' ? (
+                  <motion.div
+                    key="sun"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Sun size={16} />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="moon"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Moon size={16} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
+            <motion.a
               href="#contact"
               className="px-5 py-2.5 rounded-xl font-semibold text-sm text-white
                 bg-gradient-to-r from-accent-1 to-accent-2
                 hover:shadow-lg hover:shadow-accent-2/25 transition-all duration-300 animated-gradient-bg"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
             >
               Hire Me
-            </a>
+            </motion.a>
           </div>
         </div>
 
@@ -94,9 +157,23 @@ const Navbar = ({ theme, toggleTheme }) => {
           <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-surface/50 transition-colors text-text border border-transparent hover:border-border">
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
-          <button onClick={() => setIsOpen(!isOpen)} className="p-2 rounded-lg hover:bg-surface/50 transition-colors text-text">
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <motion.button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-lg hover:bg-surface/50 transition-colors text-text"
+            whileTap={{ scale: 0.9 }}
+          >
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <X size={24} />
+                </motion.div>
+              ) : (
+                <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <Menu size={24} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
         </div>
       </div>
 
@@ -106,11 +183,17 @@ const Navbar = ({ theme, toggleTheme }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
             className="md:hidden bg-bg/90 backdrop-blur-lg border-b border-border overflow-hidden"
           >
             <ul className="flex flex-col py-4 px-6 gap-4">
-              {navLinks.map((link) => (
-                <li key={link.name}>
+              {navLinks.map((link, i) => (
+                <motion.li
+                  key={link.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05, duration: 0.3 }}
+                >
                   <a
                     href={link.href}
                     onClick={() => setIsOpen(false)}
@@ -119,7 +202,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                   >
                     {link.name}
                   </a>
-                </li>
+                </motion.li>
               ))}
             </ul>
           </motion.div>

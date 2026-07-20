@@ -44,14 +44,17 @@ const designSkills = [
 ];
 
 const MasteryDots = ({ mastery, color }) => (
-  <div className="flex gap-0.5">
+  <div className="flex gap-1">
     {[1, 2, 3, 4, 5].map((dot) => (
-      <div
+      <motion.div
         key={dot}
-        className="w-1.5 h-1.5 rounded-full transition-all duration-300"
+        className="w-1.5 h-1.5 rounded-full"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: dot * 0.05, duration: 0.3, type: 'spring' }}
         style={{
           backgroundColor: dot <= mastery ? color : 'var(--theme-border)',
-          boxShadow: dot <= mastery ? `0 0 4px ${color}80` : 'none',
+          boxShadow: dot <= mastery ? `0 0 6px ${color}80` : 'none',
         }}
       />
     ))}
@@ -61,11 +64,16 @@ const MasteryDots = ({ mastery, color }) => (
 const SkillCard = ({ skill, index }) => (
   <div className="skill-card-wrapper">
     <motion.div
-      className="group relative glass-card p-5 flex flex-col items-center justify-center gap-3 cursor-default overflow-hidden hover:-translate-y-1.5 transition-all duration-300"
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
+      className="group relative glass-card p-5 flex flex-col items-center justify-center gap-3 cursor-default overflow-hidden transition-all duration-300"
+      initial={{ opacity: 0, scale: 0.6, y: 20 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.3, delay: index * 0.04 }}
+      transition={{
+        duration: 0.45,
+        delay: index * 0.05,
+        ease: [0.23, 1, 0.32, 1],
+      }}
+      whileHover={{ y: -6, transition: { duration: 0.3 } }}
       style={{ '--icon-color': skill.color }}
     >
       {/* Hover glow background */}
@@ -83,12 +91,14 @@ const SkillCard = ({ skill, index }) => (
       ></div>
 
       {/* Icon */}
-      <div
-        className="text-3xl md:text-4xl transition-all duration-300 relative z-10 opacity-60 group-hover:opacity-100 group-hover:scale-110 group-hover:drop-shadow-lg"
+      <motion.div
+        className="text-3xl md:text-4xl relative z-10 opacity-60 group-hover:opacity-100 transition-opacity duration-300"
         style={{ color: skill.color }}
+        whileHover={{ scale: 1.2, rotate: 8 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
       >
         {skill.icon}
-      </div>
+      </motion.div>
 
       {/* Name */}
       <span className="font-semibold text-xs text-muted group-hover:text-text transition-colors relative z-10">
@@ -104,16 +114,19 @@ const SkillCard = ({ skill, index }) => (
 );
 
 const SectionLabel = ({ icon, label, color, gradientClass }) => (
-  <div className="flex items-center gap-3 mb-6">
-    <div
-      className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold text-white bg-gradient-to-r ${gradientClass}`}
-      style={{ boxShadow: `0 0 16px ${color}40` }}
-    >
-      {icon}
-      {label}
+  <Reveal direction="left" delay={0.1}>
+    <div className="flex items-center gap-3 mb-6">
+      <motion.div
+        className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold text-white bg-gradient-to-r ${gradientClass}`}
+        style={{ boxShadow: `0 0 16px ${color}40` }}
+        whileHover={{ scale: 1.05 }}
+      >
+        {icon}
+        {label}
+      </motion.div>
+      <div className="flex-1 h-px bg-gradient-to-r from-accent-1/20 to-transparent"></div>
     </div>
-    <div className="flex-1 h-px bg-gradient-to-r from-accent-1/20 to-transparent"></div>
-  </div>
+  </Reveal>
 );
 
 const Skills = () => {
@@ -143,12 +156,7 @@ const Skills = () => {
         <div className="flex flex-col gap-14">
 
           {/* Development */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
+          <div>
             <SectionLabel
               icon={<Code2 size={15} />}
               label="Development"
@@ -160,15 +168,10 @@ const Skills = () => {
                 <SkillCard key={skill.name} skill={skill} index={index} />
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Database */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-          >
+          <div>
             <SectionLabel
               icon={<Database size={15} />}
               label="Database"
@@ -180,15 +183,10 @@ const Skills = () => {
                 <SkillCard key={skill.name} skill={skill} index={index} />
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Cloud */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
+          <div>
             <SectionLabel
               icon={<Cloud size={15} />}
               label="Cloud"
@@ -200,15 +198,10 @@ const Skills = () => {
                 <SkillCard key={skill.name} skill={skill} index={index} />
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Design */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.25 }}
-          >
+          <div>
             <SectionLabel
               icon={<Brush size={15} />}
               label="Design & Creative"
@@ -220,7 +213,7 @@ const Skills = () => {
                 <SkillCard key={skill.name} skill={skill} index={index} />
               ))}
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>

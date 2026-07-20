@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { GraduationCap, Calendar, MapPin } from 'lucide-react';
 import Reveal from './Reveal';
 
@@ -13,19 +14,21 @@ const educationData = [
     accentColor: 'var(--theme-accent-3)',
     badge: 'Undergraduate',
   },
-  {
-    degree: "Secondary Education — A/L & O/L",
-    institution: "Katukurunda Dharmapala M.V.",
-    location: "Katukurunda, Sri Lanka",
-    period: "Completed",
-    description: "Completed G.C.E. Advanced Level in the Physical Science stream and G.C.E. Ordinary Level with excellent results.",
-    color: 'from-accent-2 to-accent-1',
-    accentColor: 'var(--theme-accent-2)',
-    badge: 'Completed',
-  }
+
 ];
 
 const Education = () => {
+  const timelineRef = useRef(null);
+
+  // Timeline draw animation driven by scroll
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ['start 80%', 'end 60%'],
+  });
+
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+  const lineOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 0.6]);
+
   return (
     <section id="education" className="py-28 md:py-36 relative overflow-hidden">
       {/* Decorative Blobs */}
@@ -50,38 +53,55 @@ const Education = () => {
         </div>
 
         {/* Timeline */}
-        <div className="max-w-3xl mx-auto relative">
-          {/* Vertical line */}
-          <div className="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-accent-3/60 via-accent-1/40 to-transparent pointer-events-none"></div>
+        <div ref={timelineRef} className="max-w-3xl mx-auto relative">
+          {/* Animated vertical line that draws on scroll */}
+          <div className="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 bg-border/20 pointer-events-none">
+            <motion.div
+              className="w-full bg-gradient-to-b from-accent-3/60 via-accent-1/40 to-accent-2/60"
+              style={{
+                height: lineHeight,
+                opacity: lineOpacity,
+              }}
+            />
+          </div>
 
           <div className="flex flex-col gap-10">
             {educationData.map((item, index) => (
               <motion.div
                 key={index}
                 className="relative flex gap-6 md:gap-8"
-                initial={{ opacity: 0, x: -30 }}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: index * 0.18 }}
+                transition={{
+                  duration: 0.65,
+                  delay: index * 0.2,
+                  ease: [0.23, 1, 0.32, 1],
+                }}
               >
                 {/* Timeline dot with icon */}
                 <div className="flex-shrink-0 relative z-10">
                   <motion.div
                     className={`w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg`}
                     style={{ boxShadow: `0 0 24px ${item.accentColor}40` }}
-                    whileInView={{ scale: [0.8, 1.1, 1] }}
+                    whileInView={{ scale: [0.5, 1.15, 1], rotate: [0, -5, 0] }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.18 + 0.2 }}
+                    transition={{ duration: 0.6, delay: index * 0.2 + 0.2 }}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
                   >
                     <GraduationCap size={22} className="text-white" />
                   </motion.div>
                 </div>
 
                 {/* Card */}
-                <div className="flex-1 group glass-card p-6 md:p-8 overflow-hidden relative hover:-translate-y-2 transition-all duration-300"
+                <motion.div
+                  className="flex-1 group glass-card p-6 md:p-8 overflow-hidden relative hover:-translate-y-2 transition-all duration-300"
                   style={{ '--accent': item.accentColor }}
+                  whileHover={{
+                    boxShadow: `0 20px 40px ${item.accentColor}20`,
+                  }}
                 >
-                  {/* Hover effect container (Replaced inline JS with CSS hover for better support) */}
+                  {/* Hover effect container */}
                   <div className="absolute inset-0 border border-transparent group-hover:border-accent/60 transition-colors duration-300 rounded-2xl pointer-events-none z-20" style={{ borderColor: 'var(--accent)' }}></div>
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" style={{ boxShadow: `0 20px 40px ${item.accentColor}30, inset 0 0 0 1px ${item.accentColor}30` }}></div>
 
@@ -119,7 +139,7 @@ const Education = () => {
                   </div>
 
                   <p className="text-muted leading-relaxed text-sm md:text-base relative z-30">{item.description}</p>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>

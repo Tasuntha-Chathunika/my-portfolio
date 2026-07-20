@@ -1,99 +1,35 @@
 import { useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Mail, Sparkles } from 'lucide-react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 
 const Hero = () => {
   const heroRef = useRef(null);
 
-  useGSAP(() => {
-    // Multi-layer parallax — each element moves at a different speed
-    gsap.to('.hero-badge', {
-      y: 80,
-      opacity: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
-    });
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
 
-    gsap.to('.hero-title', {
-      y: 120,
-      opacity: 0,
-      scale: 0.95,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
-    });
+  // Parallax transforms
+  const yBadge = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const opacityBadge = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-    gsap.to('.hero-subtitle', {
-      y: 160,
-      opacity: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
-    });
+  const yTitle = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const scaleTitle = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
+  const opacityTitle = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-    gsap.to('.hero-description', {
-      y: 180,
-      opacity: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: '80% top',
-        scrub: true,
-      },
-    });
+  const ySubtitle = useTransform(scrollYProgress, [0, 1], [0, 160]);
+  const opacitySubtitle = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-    gsap.to('.hero-buttons', {
-      y: 200,
-      opacity: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: '70% top',
-        scrub: true,
-      },
-    });
-    
-    gsap.to('.hero-blob', {
-      y: 200,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      }
-    });
+  const yDesc = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const opacityDesc = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-    // Grid pattern parallax
-    gsap.to('.hero-grid', {
-      y: 100,
-      opacity: 0.05,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      }
-    });
-  }, { scope: heroRef });
+  const yButtons = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacityButtons = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  const yBlob = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const yGrid = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const opacityGrid = useTransform(scrollYProgress, [0, 1], [0.2, 0.05]);
 
   // Stagger animation variants
   const containerVariants = {
@@ -119,15 +55,17 @@ const Hero = () => {
   return (
     <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Gradient Blobs */}
-      <div className="hero-blob absolute top-20 left-10 w-80 h-80 bg-accent-1/20 rounded-full blur-[120px] animate-blob"></div>
-      <div className="hero-blob absolute top-40 right-20 w-96 h-96 bg-accent-2/15 rounded-full blur-[120px] animate-blob" style={{ animationDelay: '2s' }}></div>
-      <div className="hero-blob absolute bottom-20 left-1/3 w-72 h-72 bg-accent-3/15 rounded-full blur-[120px] animate-blob" style={{ animationDelay: '4s' }}></div>
+      <motion.div className="hero-blob absolute top-20 left-10 w-80 h-80 bg-accent-1/20 rounded-full blur-[120px] animate-blob" style={{ y: yBlob }}></motion.div>
+      <motion.div className="hero-blob absolute top-40 right-20 w-96 h-96 bg-accent-2/15 rounded-full blur-[120px] animate-blob" style={{ animationDelay: '2s', y: yBlob }}></motion.div>
+      <motion.div className="hero-blob absolute bottom-20 left-1/3 w-72 h-72 bg-accent-3/15 rounded-full blur-[120px] animate-blob" style={{ animationDelay: '4s', y: yBlob }}></motion.div>
 
       {/* Grid Pattern Overlay */}
-      <div className="hero-grid absolute inset-0 opacity-20 pointer-events-none" style={{
+      <motion.div className="hero-grid absolute inset-0 pointer-events-none" style={{
         backgroundImage: 'radial-gradient(circle at center, var(--theme-text) 1px, transparent 1px)',
-        backgroundSize: '40px 40px'
-      }}></div>
+        backgroundSize: '40px 40px',
+        y: yGrid,
+        opacity: opacityGrid
+      }}></motion.div>
 
       <div className="section-container relative z-10 w-full pt-24">
         <motion.div
@@ -140,6 +78,7 @@ const Hero = () => {
           <motion.div
             className="hero-badge inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-card neon-border mb-10"
             variants={itemVariants}
+            style={{ y: yBadge, opacity: opacityBadge }}
           >
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75 animate-ping"></span>
@@ -155,6 +94,7 @@ const Hero = () => {
           <motion.h1
             className="hero-title text-6xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black font-display leading-[1.1] mb-8 tracking-tight"
             variants={itemVariants}
+            style={{ y: yTitle, scale: scaleTitle, opacity: opacityTitle }}
           >
             Hi, I'm{' '}
             <span className="gradient-text">Tasuntha Chathunika</span>
@@ -162,7 +102,11 @@ const Hero = () => {
           </motion.h1>
 
           {/* Subtitle */}
-          <motion.div className="hero-subtitle mb-8" variants={itemVariants}>
+          <motion.div 
+            className="hero-subtitle mb-8" 
+            variants={itemVariants}
+            style={{ y: ySubtitle, opacity: opacitySubtitle }}
+          >
             <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-muted font-bold inline-block">
               Software Engineer &amp; Web Developer.
             </span>
@@ -172,6 +116,7 @@ const Hero = () => {
           <motion.p
             className="hero-description text-lg md:text-xl text-muted max-w-2xl mx-auto mb-12 leading-relaxed"
             variants={itemVariants}
+            style={{ y: yDesc, opacity: opacityDesc }}
           >
             I build high-quality software solutions and premium web experiences.
             Currently pursuing my BICT (Hons) and eager to tackle complex challenges.
@@ -181,6 +126,7 @@ const Hero = () => {
           <motion.div
             className="hero-buttons flex flex-wrap gap-4 justify-center"
             variants={itemVariants}
+            style={{ y: yButtons, opacity: opacityButtons }}
           >
             <motion.a
               href="#projects"

@@ -136,7 +136,6 @@
     --theme-accent-2: #ff2d7b; /* neon-pink */
     --theme-accent-3: #00d4ff; /* neon-cyan */
     
-    cursor: none;
   }
 
   [data-theme="light"] {
@@ -156,7 +155,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    cursor: none;
   }
 
   html {

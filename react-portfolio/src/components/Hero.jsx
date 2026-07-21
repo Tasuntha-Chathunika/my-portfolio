@@ -1,126 +1,181 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { FaLinkedin, FaGithub, FaFacebook, FaInstagram } from 'react-icons/fa';
-import profileImage from '../assets/IMG_20240613_205017.jpg';
-import Reveal from './Reveal';
-
-const socialLinks = [
-  { icon: <FaFacebook size={18} />, href: 'https://www.facebook.com/tasunthachathunika', label: 'Facebook' },
-  { icon: <FaLinkedin size={18} />, href: 'https://www.linkedin.com/in/tasuntha-chathunika', label: 'LinkedIn' },
-  { icon: <FaInstagram size={18} />, href: 'https://www.instagram.com/tasuntha_chathunika', label: 'Instagram' },
-  { icon: <FaGithub size={18} />, href: 'https://github.com/Tasuntha-Chathunika', label: 'GitHub' },
-];
+import { ArrowRight, Mail, Sparkles } from 'lucide-react';
 
 const Hero = () => {
   const heroRef = useRef(null);
+
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
   });
 
-  const yText = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const opacityText = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  
-  const yImage = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const opacityImage = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  // Parallax transforms
+  const yBadge = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const opacityBadge = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  const yTitle = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const scaleTitle = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
+  const opacityTitle = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  const ySubtitle = useTransform(scrollYProgress, [0, 1], [0, 160]);
+  const opacitySubtitle = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  const yDesc = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const opacityDesc = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  const yButtons = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacityButtons = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  const yBlob = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const yGrid = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const opacityGrid = useTransform(scrollYProgress, [0, 1], [0.2, 0.05]);
+
+  // Stagger animation variants
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { duration: 0.8, ease: [0.17, 0.55, 0.55, 1] },
+    },
+  };
 
   return (
-    <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center pt-24 pb-20 overflow-hidden bg-bg">
-      <div className="section-container w-full z-10 relative">
-        <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-8">
-          
-          {/* Left Column: Text Content */}
-          <motion.div 
-            className="flex-1 flex flex-col items-start text-left max-w-2xl"
-            style={{ y: yText, opacity: opacityText }}
+    <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center pt-20 pb-20">
+      {/* Animated Gradient Blobs */}
+      <motion.div className="hero-blob absolute top-20 left-10 w-80 h-80 bg-accent-1/20 rounded-full blur-[120px] animate-blob" style={{ y: yBlob }}></motion.div>
+      <motion.div className="hero-blob absolute top-40 right-20 w-96 h-96 bg-accent-2/15 rounded-full blur-[120px] animate-blob" style={{ animationDelay: '2s', y: yBlob }}></motion.div>
+      <motion.div className="hero-blob absolute bottom-20 left-1/3 w-72 h-72 bg-accent-3/15 rounded-full blur-[120px] animate-blob" style={{ animationDelay: '4s', y: yBlob }}></motion.div>
+
+      {/* Grid Pattern Overlay */}
+      <motion.div className="hero-grid absolute inset-0 pointer-events-none" style={{
+        backgroundImage: 'radial-gradient(circle at center, var(--theme-text) 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+        y: yGrid,
+        opacity: opacityGrid
+      }}></motion.div>
+
+      <div className="section-container relative z-10 w-full pt-24">
+        <motion.div
+          className="hero-content max-w-4xl mx-auto text-center"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Status Badge */}
+          <motion.div
+            className="hero-badge inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-card neon-border mb-10"
+            variants={itemVariants}
+            style={{ y: yBadge, opacity: opacityBadge }}
           >
-            <Reveal direction="up" delay={0.1}>
-              <h3 className="text-xl md:text-2xl font-semibold text-text mb-2">
-                Hello, It's Me
-              </h3>
-            </Reveal>
-            
-            <Reveal direction="up" delay={0.2}>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black font-display tracking-tight text-white mb-2 leading-tight">
-                Tasuntha Chathunika
-              </h1>
-            </Reveal>
-
-            <Reveal direction="up" delay={0.3}>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-text mb-6">
-                And I'm a <span className="text-accent-3">Frontend Developer</span>
-              </h2>
-            </Reveal>
-
-            <Reveal direction="up" delay={0.4}>
-              <p className="text-muted text-lg md:text-xl leading-relaxed mb-8 max-w-lg">
-                I'm a highly motivated BICT (Hons) undergraduate passionate about crafting beautiful, functional, and user-centric web experiences.
-              </p>
-            </Reveal>
-
-            <Reveal direction="up" delay={0.5}>
-              <div className="flex flex-wrap gap-4 mb-8">
-                {socialLinks.map((link, i) => (
-                  <motion.a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={link.label}
-                    className="w-12 h-12 rounded-full border-2 border-accent-3 text-accent-3 flex items-center justify-center
-                               hover:bg-accent-3 hover:text-bg hover:shadow-[0_0_15px_var(--theme-accent-3)] transition-all duration-300"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6 + i * 0.1, type: 'spring' }}
-                  >
-                    {link.icon}
-                  </motion.a>
-                ))}
-              </div>
-            </Reveal>
-
-            <Reveal direction="up" delay={0.6}>
-              <motion.a
-                href="#about" 
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full font-bold text-bg bg-accent-3
-                           shadow-[0_0_20px_var(--theme-accent-3)] hover:shadow-[0_0_30px_var(--theme-accent-3)] 
-                           transition-all duration-300"
-                whileHover={{ scale: 1.05, y: -3 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Download CV
-              </motion.a>
-            </Reveal>
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75 animate-ping"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+            </span>
+            <span className="text-sm font-medium text-muted">
+              <Sparkles size={14} className="inline mr-1 text-yellow-500" />
+              Available for Work
+            </span>
           </motion.div>
 
-          {/* Right Column: Hexagon Image */}
-          <motion.div 
-            className="flex-1 flex justify-center lg:justify-end items-center w-full max-w-md lg:max-w-lg relative"
-            style={{ y: yImage, opacity: opacityImage }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          {/* Title */}
+          <motion.h1
+            className="hero-title text-6xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black font-display leading-[1.1] mb-8 tracking-tight"
+            variants={itemVariants}
+            style={{ y: yTitle, scale: scaleTitle, opacity: opacityTitle }}
           >
-            {/* Hexagon Wrapper with Glow */}
-            <div className="relative hex-glow p-2">
-               {/* Inner Hexagon for Border */}
-               <div className="w-64 h-72 sm:w-80 sm:h-96 md:w-96 md:h-[28rem] bg-accent-3 hex-clip flex items-center justify-center">
-                  {/* Image Hexagon */}
-                  <div className="w-[98%] h-[98%] bg-card hex-clip overflow-hidden">
-                    <img 
-                      src={profileImage} 
-                      alt="Tasuntha Chathunika" 
-                      className="w-full h-full object-cover scale-110 translate-y-4"
-                    />
-                  </div>
-               </div>
-            </div>
+            Hi, I'm{' '}
+            <span className="gradient-text">Tasuntha Chathunika</span>
+            <span className="text-accent-2">.</span>
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.div 
+            className="hero-subtitle mb-8" 
+            variants={itemVariants}
+            style={{ y: ySubtitle, opacity: opacitySubtitle }}
+          >
+            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-muted font-bold inline-block">
+              Software Engineer &amp; Web Developer.
+            </span>
           </motion.div>
 
-        </div>
+          {/* Description */}
+          <motion.p
+            className="hero-description text-lg md:text-xl text-muted max-w-2xl mx-auto mb-12 leading-relaxed"
+            variants={itemVariants}
+            style={{ y: yDesc, opacity: opacityDesc }}
+          >
+            I build high-quality software solutions and premium web experiences.
+            Currently pursuing my BICT (Hons) and eager to tackle complex challenges.
+          </motion.p>
+
+          {/* Buttons */}
+          <motion.div
+            className="hero-buttons flex flex-wrap gap-4 justify-center"
+            variants={itemVariants}
+            style={{ y: yButtons, opacity: opacityButtons }}
+          >
+            <motion.a
+              href="#projects"
+              className="group flex items-center gap-2.5 px-8 py-4 rounded-xl font-semibold text-white
+                bg-gradient-to-r from-accent-3 to-accent-1
+                hover:shadow-lg hover:shadow-accent-3/50 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -3 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              View Projects
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </motion.a>
+            <motion.a
+              href="#contact"
+              className="group flex items-center gap-2.5 px-8 py-4 rounded-xl font-semibold text-text
+                glass-card neon-border hover:border-accent-2/50 hover:shadow-lg hover:shadow-accent-2/30 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -3 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Contact Me
+              <Mail size={18} />
+            </motion.a>
+          </motion.div>
+        </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
+      >
+        <span className="text-[10px] text-muted font-semibold uppercase tracking-[0.3em]">Scroll</span>
+        <motion.div
+          className="w-5 h-8 rounded-full border-2 border-muted/30 flex items-start justify-center p-1"
+          animate={{ borderColor: ['rgba(136,136,170,0.3)', 'rgba(168,85,247,0.5)', 'rgba(136,136,170,0.3)'] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <motion.div
+            className="w-1 h-2 rounded-full bg-accent-1"
+            animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </motion.div>
+      </motion.div>
+
+      {/* Bottom Gradient Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-bg to-transparent pointer-events-none"></div>
     </section>
   );
 };

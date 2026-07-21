@@ -244,14 +244,6 @@
   animation: shimmer 3s linear infinite;
 }
 
-@utility hex-clip {
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-}
-
-@utility hex-glow {
-  filter: drop-shadow(0 0 15px var(--theme-accent-3)) drop-shadow(0 0 30px var(--theme-accent-3));
-}
-
 /* stat-card as plain CSS class */
 .stat-card {
   background: var(--theme-card);

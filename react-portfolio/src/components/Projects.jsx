@@ -4,7 +4,7 @@ import { ExternalLink, Star, X, Code2, Database, Layout, ArrowRight } from 'luci
 import { FaGithub, FaFigma } from 'react-icons/fa';
 import Reveal from './Reveal';
 import pricepulseImg from '../assets/prisepluse.png';
-import attendanceImg from '../assets/hero.png';
+import attendanceImg from '../assets/atms.png';
 
 const projectsData = [
   {
@@ -38,24 +38,24 @@ const projectsData = [
       { name: 'MySQL', color: '#f29111' },
       { name: 'Tailwind CSS', color: '#06b6d4' },
     ],
-    links: { github: '#' }, 
+    links: { github: 'https://github.com/Tasuntha-Chathunika/Attendance-timetable-system' }, 
     gradient: 'from-accent-1 to-accent-2',
     accentColor: 'var(--theme-accent-1)',
     featured: false,
   },
   {
-    title: 'UI/UX Design Concepts',
-    description: 'Modern, user-centric interface designs created with Figma, focusing on usability, professional aesthetics, and seamless user experiences.',
-    fullDescription: 'A collection of UI/UX design projects focusing on creating intuitive, accessible, and visually stunning digital experiences across web and mobile platforms.',
-    architecture: 'Design systems built meticulously in Figma, utilizing auto-layout, components, and variables to ensure consistency and ease of developer handoff.',
-    technologies: ['Figma', 'Prototyping', 'Wireframing', 'Design Systems'],
-    challenges: 'Balancing aesthetic appeal with functional usability. I overcame this by conducting user research and iterating on wireframes before committing to high-fidelity designs.',
-    icon: <FaFigma size={36} />,
+    title: 'Biz Analytics Web App',
+    description: 'A comprehensive business analytics web application to visualize and analyze business metrics.',
+    fullDescription: 'Biz Analytics Web App provides real-time insights into business performance through interactive dashboards and data visualization tools.',
+    architecture: 'Frontend developed with React for dynamic user interfaces and data representation.',
+    technologies: ['React', 'JavaScript', 'Tailwind CSS', 'Data Visualization'],
+    challenges: 'Handling and visualizing large datasets efficiently on the client-side without performance bottlenecks.',
+    icon: <Database size={36} />,
     tags: [
-      { name: 'Figma', color: '#f24e1e' },
-      { name: 'UI/UX Design', color: 'var(--theme-accent-1)' },
+      { name: 'React', color: '#61dafb' },
+      { name: 'Analytics', color: 'var(--theme-accent-1)' },
     ],
-    links: { demo: '#' }, 
+    links: { github: 'https://github.com/Tasuntha-Chathunika/biz-analytics-webapp' }, 
     gradient: 'from-accent-2 to-accent-1',
     accentColor: 'var(--theme-accent-2)',
     featured: false,

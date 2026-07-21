@@ -1,5 +1,5 @@
 import { ArrowUp, Heart, Code2 } from 'lucide-react';
-import { FaLinkedin, FaGithub, FaFacebook, FaInstagram } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaFacebook, FaInstagram, FaMedium } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Reveal from './Reveal';
@@ -9,6 +9,7 @@ const socialLinks = [
   { icon: <FaGithub size={18} />, href: 'https://github.com/Tasuntha-Chathunika', label: 'GitHub', color: 'var(--theme-text)' },
   { icon: <FaFacebook size={18} />, href: 'https://www.facebook.com/share/1Eq64hpb1T/', label: 'Facebook', color: '#1877f2' },
   { icon: <FaInstagram size={18} />, href: 'https://www.instagram.com/YOUR_INSTAGRAM_USERNAME', label: 'Instagram', color: '#e1306c' },
+  { icon: <FaMedium size={18} />, href: 'https://medium.com/@YOUR_MEDIUM_USERNAME', label: 'Medium', color: 'var(--theme-text)' },
 ];
 
 const navLinks = [

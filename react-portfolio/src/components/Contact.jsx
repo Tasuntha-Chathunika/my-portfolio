@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Mail, Phone, CheckCircle, XCircle, Loader2 } from 'lucide-react';
-import { FaLinkedin, FaGithub, FaFacebook, FaInstagram } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaFacebook, FaInstagram, FaMedium } from 'react-icons/fa';
 import Reveal from './Reveal';
 
 const socialLinks = [
@@ -9,6 +9,7 @@ const socialLinks = [
   { icon: <FaGithub size={20} />, href: 'https://github.com/Tasuntha-Chathunika', color: 'var(--theme-text)', label: 'GitHub' },
   { icon: <FaFacebook size={20} />, href: 'https://www.facebook.com/share/1Eq64hpb1T/', color: '#1877f2', label: 'Facebook' },
   { icon: <FaInstagram size={20} />, href: 'https://www.instagram.com/YOUR_INSTAGRAM_USERNAME', color: '#e1306c', label: 'Instagram' },
+  { icon: <FaMedium size={20} />, href: 'https://medium.com/@YOUR_MEDIUM_USERNAME', color: 'var(--theme-text)', label: 'Medium' },
   { icon: <Mail size={20} />, href: 'mailto:tasunthachathunika@gmail.com', color: 'var(--theme-accent-2)', label: 'Email' },
   { icon: <Phone size={20} />, href: 'tel:0750561571', color: 'var(--theme-accent-1)', label: 'Phone' },
 ];

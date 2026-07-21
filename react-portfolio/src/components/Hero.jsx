@@ -53,7 +53,7 @@ const Hero = () => {
   };
 
   return (
-    <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center pt-20 pb-20">
       {/* Animated Gradient Blobs */}
       <motion.div className="hero-blob absolute top-20 left-10 w-80 h-80 bg-accent-1/20 rounded-full blur-[120px] animate-blob" style={{ y: yBlob }}></motion.div>
       <motion.div className="hero-blob absolute top-40 right-20 w-96 h-96 bg-accent-2/15 rounded-full blur-[120px] animate-blob" style={{ animationDelay: '2s', y: yBlob }}></motion.div>

@@ -77,7 +77,6 @@ const About = () => {
     // Enhanced image parallax with slight rotation
     gsap.to('.about-image-container', {
       y: -60,
-      rotation: -1.5,
       ease: 'none',
       scrollTrigger: {
         trigger: aboutRef.current,
@@ -136,8 +135,8 @@ const About = () => {
           {/* Image + Stats */}
           <motion.div
             className="about-image-container w-full max-w-xs lg:max-w-sm relative group flex-shrink-0"
-            initial={{ opacity: 0, x: -40, rotate: -3 }}
-            whileInView={{ opacity: 1, x: 0, rotate: 0 }}
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
           >
@@ -159,9 +158,9 @@ const About = () => {
               }}
             ></div>
 
-            {/* Inner Content containing the image AND stats */}
-            <div className="relative bg-bg p-3 rounded-[1.2rem] z-10 flex flex-col gap-4">
-              <div className="relative w-full rounded-xl overflow-hidden">
+            {/* Inner Content containing the image */}
+            <div className="relative bg-bg p-2 rounded-2xl overflow-hidden z-10 h-full">
+              <div className="relative h-full w-full rounded-xl overflow-hidden">
                 <img
                   src={profileImage}
                   alt="Tasuntha Chathunika Dayasiri"
@@ -170,13 +169,13 @@ const About = () => {
                 {/* Image overlay shimmer on hover */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-accent-1/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
               </div>
+            </div>
 
-              {/* Stats Row below image with counter animation */}
-              <div className="grid grid-cols-3 gap-2">
-                {stats.map((stat, i) => (
-                  <StatCard key={stat.label} stat={stat} index={i} />
-                ))}
-              </div>
+            {/* Stats Row below image with counter animation */}
+            <div className="grid grid-cols-3 gap-2 mt-4">
+              {stats.map((stat, i) => (
+                <StatCard key={stat.label} stat={stat} index={i} />
+              ))}
             </div>
           </motion.div>
 

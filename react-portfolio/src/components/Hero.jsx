@@ -97,7 +97,7 @@ const Hero = () => {
             style={{ y: yTitle, scale: scaleTitle, opacity: opacityTitle }}
           >
             Hi, I'm{' '}
-            <span className="gradient-text">Tasuntha</span>
+            <span className="gradient-text">Tasuntha Chathunika</span>
             <span className="text-accent-2">.</span>
           </motion.h1>
 

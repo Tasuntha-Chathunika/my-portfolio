@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Reveal from './Reveal';
 
+const socialLinks = [
   { icon: <FaLinkedin size={18} />, href: 'https://www.linkedin.com/in/tasuntha-chathunika', label: 'LinkedIn', color: '#0077b5' },
   { icon: <FaGithub size={18} />, href: 'https://github.com/Tasuntha-Chathunika', label: 'GitHub', color: 'var(--theme-text)' },
   { icon: <FaMedium size={18} />, href: 'https://medium.com/@tasunthachathunika', label: 'Medium', color: 'var(--theme-text)' },

@@ -14,6 +14,16 @@ const educationData = [
     accentColor: 'var(--theme-accent-3)',
     badge: 'Undergraduate',
   },
+  {
+    degree: "Secondary Education (A/L & O/L)",
+    institution: "Katukurunda Dharmapala M.V.",
+    location: "Katukurunda, Sri Lanka",
+    period: "Completed",
+    description: "Completed G.C.E. Advanced Level in the Physical Science stream and G.C.E. Ordinary Level with excellent results.",
+    color: 'from-accent-1 to-accent-2',
+    accentColor: 'var(--theme-accent-1)',
+    badge: 'Completed',
+  },
 
 ];
 

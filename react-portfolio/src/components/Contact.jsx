@@ -234,7 +234,7 @@ const Contact = () => {
                         onChange={handleChange}
                         className="w-full bg-bg/40 backdrop-blur-md border border-border rounded-xl px-4 py-3.5 text-text
                           focus:outline-none focus:border-accent-2 focus:ring-4 focus:ring-accent-1/20 transition-all duration-300 placeholder-muted/40"
-                        placeholder="Tasuntha Chathunika"
+                        placeholder="John Doe"
                         required
                       />
                       {/* Animated underline */}

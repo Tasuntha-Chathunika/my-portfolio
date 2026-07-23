@@ -77,7 +77,6 @@ function App() {
   return (
     <div className="relative min-h-screen">
       <Preloader />
-      <CustomCursor />
       <ScrollProgress />
       <Background3D theme={theme} />
       <Navbar theme={theme} toggleTheme={toggleTheme} />

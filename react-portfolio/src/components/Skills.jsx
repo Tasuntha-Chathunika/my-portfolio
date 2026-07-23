@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import {
   FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs,
-  FaJava, FaFigma, FaPalette, FaCut,
+  FaJava, FaFigma, FaPalette, FaCut, FaVideo,
   FaAws
 } from 'react-icons/fa';
 import { SiTailwindcss, SiCplusplus, SiMysql, SiMongodb, SiPostgresql } from 'react-icons/si';
@@ -39,6 +39,7 @@ const cloudSkills = [
 const designSkills = [
   { name: 'Photoshop', icon: <FaPalette />, color: '#31a8ff', mastery: 4 },
   { name: 'Illustrator', icon: <FaPalette />, color: '#ff9a00', mastery: 4 },
+  { name: 'Premiere Pro', icon: <FaVideo />, color: '#9999ff', mastery: 4 },
   { name: 'CapCut', icon: <FaCut />, color: 'var(--theme-text)', mastery: 4 },
   { name: 'Figma', icon: <FaFigma />, color: '#f24e1e', mastery: 5 },
 ];

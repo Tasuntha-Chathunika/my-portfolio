@@ -199,7 +199,7 @@ const About = () => {
                 <>Hello! I'm{' '}<strong className="text-text font-semibold">Tasuntha Chathunika Dayasiri</strong>, a highly motivated and results-oriented student at the University of Vavuniya.</>,
                 <>I am currently pursuing a Bachelor of Information and Communication Technology (Hons). My primary goal is to leverage my growing technical skills and creativity to contribute to impactful projects in the tech industry.</>,
                 <>I have a strong foundation in modern web development (HTML, CSS, JavaScript, React, Tailwind CSS) and backend systems (Node.js). I'm also enthusiastic about exploring creative coding with Three.js and p5.js.</>,
-                <>Beyond web development, my skillset extends to C, C++, C#, and Java. I am equally passionate about creative design, utilizing professional tools like Adobe Photoshop, Illustrator, Premiere Pro, and Figma to craft visually compelling experiences.</>,
+                <>Beyond web development, my skillset extends to C, C++, C#, and Java. I am equally passionate about creative design, utilizing professional tools like Adobe Photoshop, Illustrator, and Figma to craft visually compelling experiences.</>,
               ].map((content, i) => (
                 <motion.p
                   key={i}
